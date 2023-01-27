@@ -4,7 +4,7 @@ import logger from "morgan";
 import { index } from "./routes/index";
 import { users } from "./routes/users";
 
-var app = express();
+const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
