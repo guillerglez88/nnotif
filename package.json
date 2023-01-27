@@ -1,0 +1,28 @@
+{
+  "name": "nnotif",
+  "version": "1.0.0",
+  "description": "Prove of concept for a user notifications platform in NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillerglez88/nnotif.git"
+  },
+  "keywords": [
+    "node",
+    "expressjs",
+    "rest",
+    "docker",
+    "kubernetes",
+    "typescript",
+    "subscription"
+  ],
+  "author": "guillerglez88@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guillerglez88/nnotif/issues"
+  },
+  "homepage": "https://github.com/guillerglez88/nnotif#readme"
+}
