@@ -1,0 +1,16 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build nnotif-dynarest
+      run: |
+        docker build ./nnotif-dynares --file Dockerfile --tag guillerglez88/nnotif-dynarest --tag guillerglez88/nnotif-dynarest:$(date +%s) --target prod
