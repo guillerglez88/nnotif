@@ -16,8 +16,13 @@ const create = async <T extends Res>(res: T, tx: PoolClient): Promise<T> => {
   return rows.map(({ resource }) => resource)[0]
 }
 
-const fetch = <T extends Res>(id: ResId, tx: PoolClient): T => {
-  throw new Error("not-implemented")
+const fetch = async <T extends Res>(id: ResId, tx: PoolClient): Promise<T> => {
+  const sql = `SELECT * FROM ${id.type} WHERE id = $1`
+  const params = [id.id]
+
+  const { rows } = await tx.query<{ resource: T }>(sql, params)
+
+  return rows.map(({ resource }) => resource)[0]
 }
 
 const edit = <T extends Res>(res: T, tx: PoolClient): T => {

@@ -7,9 +7,12 @@ import { search } from "../data/storage"
 import { withTx } from "../data/transaction"
 import * as nerves from "../nerves"
 
-const handle = (req: Request, res: Response, route: Route): void => {
+const handle = async (req: Request, res: Response, route: Route): Promise<void> => {
   const nerve = nerves.pick(route.code)
-  nerve(req, res, route)
+
+  await withTx(async (tx) => {
+    await nerve(req, res, route, tx)
+  })
 }
 
 const register = (route: Route, router: Router): void => {
@@ -17,28 +20,28 @@ const register = (route: Route, router: Router): void => {
 
   switch (route.method) {
     case "GET":
-      router.get(strPath, (req, res) => {
-        handle(req, res, route)
+      router.get(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "POST":
-      router.post(strPath, (req, res) => {
-        handle(req, res, route)
+      router.post(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "PUT":
-      router.put(strPath, (req, res) => {
-        handle(req, res, route)
+      router.put(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "PATCH":
-      router.patch(strPath, (req, res) => {
-        handle(req, res, route)
+      router.patch(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "DELETE":
-      router.delete(strPath, (req, res) => {
-        handle(req, res, route)
+      router.delete(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     default:
