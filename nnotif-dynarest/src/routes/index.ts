@@ -15,6 +15,7 @@ const handle = async (req: Request, res: Response, route: Route): Promise<void> 
   })
 }
 
+/* eslint-disable @typescript-eslint/no-misused-promises */
 const register = (route: Route, router: Router): void => {
   const strPath = stringifyPath(route)
 

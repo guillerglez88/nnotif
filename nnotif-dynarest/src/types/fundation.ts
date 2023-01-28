@@ -3,7 +3,11 @@ export interface ResId {
   id?: string
 }
 
-export interface Res extends ResId {}
+export interface Res extends ResId {
+  url?: string
+  created?: Date
+  modified?: Date
+}
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 

@@ -1,1 +1,41 @@
-GET http://localhost:3000
+@base-url=http://localhost:3000
+
+GET {{base-url}}/List?of=Route
+
+###
+
+GET {{base-url}}/Resource/route
+
+###
+
+# @name create
+POST {{base-url}}/Resource
+Content-Type: application/json
+
+{
+    "name": [{
+        "given": ["John"],
+        "family": "Doe"
+    }],
+    "gender": "male"
+}
+###
+
+GET {{base-url}}/Resource/{{create.response.body.id}}
+
+###
+
+DELETE {{base-url}}/Resource/{{create.response.body.id}}
+
+###
+
+PUT {{base-url}}/Resource/{{create.response.body.id}}
+Content-Type: application/json
+
+{
+    "name": [{
+        "given": ["John", "Martin"],
+        "family": "Doe"
+    }],
+    "gender": "male"
+}
