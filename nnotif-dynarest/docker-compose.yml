@@ -1,11 +1,12 @@
 version: '3.4'
 
 services:
-  nnotifdynarest:
-    image: nnotifdynarest
+  nnotif-dynarest:
+    image: nnotif-dynarest
     build:
       context: .
       dockerfile: ./Dockerfile
+      target: prod
     environment:
       NODE_ENV: production
     ports:

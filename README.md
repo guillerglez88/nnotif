@@ -1,18 +1,43 @@
 # nnotif
 Prove of concept for a user notifications platform in NodeJS
 
-| tech              | choise         | version |
-| ----------------- | -------------- | ------: |
-| platform          | node           |  19.5.0 |
-| lang              | typescript     |   4.9.4 |
-| api               | expressjs      |  4.18.2 |
-| db                | postgres       |    14.5 |
-| container         | docker(linux)  |  4.13.0 |
-| dev-orchestrator  | docker-compose |  2.11.2 |
-| prod-orchestrator | kubernetes     |    1.25 |
+### Techs
+
+|                   |                |            |
+| ----------------- | -------------- | ---------: |
+| platform          | node           |     19.5.0 |
+| lang              | typescript     |      4.9.4 |
+| linter            | eslint         |     8.32.0 |
+| formatter         | prettier       |      2.8.3 |
+| api               | expressjs      |     4.18.2 |
+| db                | postgres       |       14.5 |
+| container         | docker(linux)  |     4.13.0 |
+| orchestrator:dev  | docker-compose |     2.11.2 |
+| orchestrator:prod | kubernetes     |       1.25 |
+| image             | node           | lts-alpine |
 
 
-## Testing env startup
+## Docker
+
+### Specific service
+
+Using `nnotif-dynarest` as example
+
+#### Build
+
+```
+$> cd ./nnotif-dynarest
+$> docker build -t build --progress=plain .
+```
+
+#### Start
+
+```
+$> cd ./nnotif-dynarest
+$> docker compose up --build
+```
+
+### Whole Solution
 
 ```
 $> docker compose up --build
