@@ -1,30 +1,31 @@
 import { type ResId } from "fundation"
+import { type PoolClient } from "pg"
 
-const create = <T>(tx: object, id: ResId, content: T): T => {
+const create = <T>(tx: PoolClient, id: ResId, content: T): T => {
   throw new Error("not-implemented")
 }
 
-const fetch = <T>(tx: object, id: ResId): T => {
+const fetch = <T>(tx: PoolClient, id: ResId): T => {
   throw new Error("not-implemented")
 }
 
-const edit = <T>(tx: object, id: ResId, content: T): T => {
+const edit = <T>(tx: PoolClient, id: ResId, content: T): T => {
   throw new Error("not-implemented")
 }
 
-const upsert = <T>(tx: object, id: ResId, content: T): T => {
+const upsert = <T>(tx: PoolClient, id: ResId, content: T): T => {
   throw new Error("not-implemented")
 }
 
-const remove = <T>(tx: object, id: ResId): T => {
+const remove = <T>(tx: PoolClient, id: ResId): T => {
   throw new Error("not-implemented")
 }
 
-const total = (tx: object, query: string): number => {
+const total = (tx: PoolClient, query: string): number => {
   throw new Error("not-implemented")
 }
 
-const search = <T>(tx: object, type: string, query: string): T[] => {
+const search = <T>(tx: PoolClient, type: string, query: string): T[] => {
   throw new Error("not-implemented")
 }
 
