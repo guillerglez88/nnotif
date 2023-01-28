@@ -17,7 +17,7 @@ const handler = async (
   const id = req.params[getPathIdName(route)] as string
   const entity = await fetch({ type, id }, tx)
 
-  if (entity !== undefined) {
+  if (entity === undefined) {
     await create.handler(req, res, route, tx)
   } else {
     await update.handler(req, res, route, tx)
