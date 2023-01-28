@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  nnotif-dynarest:
+    image: nnotif-dynarest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: build
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: ["npm", "run", "dev"]
