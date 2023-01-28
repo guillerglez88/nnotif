@@ -9,5 +9,6 @@ services:
       target: prod
     environment:
       NODE_ENV: production
+      DB: jdbc:postgresql://host.docker.internal:5432/nnotif?user=postgres&password=postgres
     ports:
       - 3000:3000
