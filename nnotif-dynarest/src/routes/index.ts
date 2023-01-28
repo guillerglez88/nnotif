@@ -14,7 +14,26 @@ const register = (route: Route, router: Router): void => {
         res.status(200).json({ path: strPath })
       })
       break
-
+    case "POST":
+      router.post(strPath, (req, res, _next) => {
+        res.status(200).json({ path: strPath })
+      })
+      break
+    case "PUT":
+      router.put(strPath, (req, res, _next) => {
+        res.status(200).json({ path: strPath })
+      })
+      break
+    case "PATCH":
+      router.patch(strPath, (req, res, _next) => {
+        res.status(200).json({ path: strPath })
+      })
+      break
+    case "DELETE":
+      router.delete(strPath, (req, res, _next) => {
+        res.status(200).json({ path: strPath })
+      })
+      break
     default:
       break
   }
