@@ -28,12 +28,17 @@ const fetch = async <T extends Res>(id: ResId, tx: PoolClient): Promise<T> => {
   return rows.map((row) => normalize(id.type, row))[0]
 }
 
-const edit = <T extends Res>(res: T, tx: PoolClient): T => {
-  throw new Error("not-implemented")
-}
+const edit = async <T extends Res>(res: T, tx: PoolClient): Promise<T> => {
+  const id = res.id
+  const type = res.type.toLocaleLowerCase()
+  const modified = new Date().toUTCString()
 
-const upsert = <T extends Res>(res: T, tx: PoolClient): T => {
-  throw new Error("not-implemented")
+  const sql = `UPDATE ${type} SET resource=$1, modified=$2 WHERE id=$3 RETURNING *`
+  const params = [res, modified, id]
+
+  const { rows } = await tx.query<Row<T>>(sql, params)
+
+  return rows.map((row) => normalize(type, row))[0]
 }
 
 const remove = <T extends Res>(id: ResId, tx: PoolClient): T | undefined => {
@@ -53,4 +58,4 @@ const search = async <T extends Res>(
   return rows.map((row) => normalize(type, row))
 }
 
-export { create, fetch, edit, upsert, remove, total, search }
+export { create, fetch, edit, remove, total, search }
