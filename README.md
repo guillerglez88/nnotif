@@ -1,4 +1,7 @@
 # nnotif
+
+![example workflow](https://github.com/guillerglez88/nnotif/actions/workflows/ci-cd.yml/badge.svg)
+
 Prove of concept for a user notifications platform in NodeJS
 
 ### Techs
