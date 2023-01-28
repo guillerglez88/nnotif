@@ -1,16 +1,22 @@
-import express from "express";
-import logger from "morgan";
+import express from "express"
+import logger from "morgan"
 
-import { index } from "./routes/index";
-import { users } from "./routes/users";
+import { index } from "./routes/index"
+import { users } from "./routes/users"
+import * as seed from "./seed"
 
-const app = express();
+const app = express()
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(logger("dev"))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-app.use("/", index);
-app.use("/users", users);
+app.use("/", index)
+app.use("/users", users)
 
-export { app };
+
+;void (async () => {
+  await seed.init()
+})()
+
+export { app }

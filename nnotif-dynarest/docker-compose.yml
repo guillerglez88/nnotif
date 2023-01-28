@@ -9,5 +9,6 @@ services:
       target: prod
     environment:
       NODE_ENV: production
+      DB: postgres://postgres:postgres@localhost:5432/nnotif
     ports:
       - 3000:3000

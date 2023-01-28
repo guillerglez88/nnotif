@@ -1,14 +1,13 @@
-import { app } from "../app"
 import debug from "debug"
 import http from "http"
-import dotenv from "dotenv"
 import { type AddressInfo } from "net"
 
-debug("nnotif-dynarest:server")
-dotenv.config()
+import { config } from "../libs/config"
+import { app } from "../app"
 
-const port = process.env.PORT ?? "3000"
-app.set("port", port)
+debug("nnotif-dynarest:server")
+
+app.set("port", config.port)
 
 const server = http.createServer(app)
 
@@ -19,11 +18,11 @@ const onError = (error: Error & { syscall: string; code: string }): void => {
 
   switch (error.code) {
     case "EACCES":
-      console.error("Port " + port + " requires elevated privileges")
+      console.error(`Port ${config.port} requires elevated privileges`)
       process.exit(1)
       break
     case "EADDRINUSE":
-      console.error("Port " + port + " is already in use")
+      console.error(`Port ${config.port} is already in use`)
       process.exit(1)
       break
     default:
@@ -37,6 +36,6 @@ const onListening = ():void => {
   debug("Listening on " + bind)
 }
 
-server.listen(port)
+server.listen(config.port)
 server.on("error", onError)
 server.on("listening", onListening)
