@@ -48,7 +48,7 @@ $> docker compose up --build
 
 ## nnotif-dynarest [wip 🛠]
 
-In star model architecture, this service represents the center of the star. It will bring all the core and generic features for all the platform. It is a dynamic, data-driven, metadata-oriented, self-descriving REST server.
+In star model architecture, this service represents the center of the star. It will bring all the core and generic features for all the platform. It is a dynamic, data-driven, metadata-oriented, self-descriving REST server. That is, everithing is data, including the routes being registered to ExpressJS.
 
 ### Dev
 
