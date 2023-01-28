@@ -3,7 +3,7 @@ import { type Res, type Route } from "fundation"
 import { type PoolClient } from "pg"
 
 import { create } from "../data/storage"
-import { getPathTypeValue } from "../libs/routes"
+import { getPathIdName, getPathTypeValue } from "../libs/routes"
 
 const handler = async (
   req: Request,
@@ -12,7 +12,8 @@ const handler = async (
   tx: PoolClient,
 ): Promise<void> => {
   const type = getPathTypeValue(route)
-  const content: Res = { ...req.body, type }
+  const id = req.params[getPathIdName(route)] as string | undefined
+  const content: Res = { ...req.body, type, id }
 
   const resource = await create(content, tx)
 
