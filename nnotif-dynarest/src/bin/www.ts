@@ -2,8 +2,7 @@ import debug from "debug"
 import http from "http"
 import { type AddressInfo } from "net"
 
-import { config } from "@libs/config"
-
+import { config } from "../libs/config"
 import { app } from "../app"
 
 debug("nnotif-dynarest:server")

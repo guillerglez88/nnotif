@@ -10,7 +10,7 @@
     "tsc": "tsc -p tsconfig.json",
     "tsc:dev": "tsc --sourceMap true -p tsconfig.json",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf ./dist/*",
     "lint": "eslint --ext .js,.ts .",
     "lint-fix": "eslint --ext .js,.ts . --fix"
   },
@@ -21,9 +21,10 @@
   },
   "dependencies": {
     "debug": "~2.6.9",
-    "dotenv": "^16.0.3",
+    "dotenv": "~16.0.3",
     "express": "~4.18.2",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "uuid": "~9.0.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
@@ -32,6 +33,7 @@
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "@types/uuid": "9.0.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard-with-typescript": "^33.0.0",

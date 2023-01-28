@@ -1,6 +1,6 @@
 export interface ResId {
   type: string
-  id: string
+  id?: string
 }
 
 export interface Res extends ResId {}
@@ -16,11 +16,11 @@ export interface Req {
   method: Method
   url: string
   body: Res
-  status: number
+  status?: number
 }
 
 export interface Transaction extends Res {
   status: string
   mode: string
-  items: [Req]
+  items: Req[]
 }

@@ -1,6 +1,6 @@
 import { Pool, type PoolClient } from "pg"
 
-import { config } from "@libs/config"
+import { config } from "../libs/config"
 
 const COMMIT = "COMMIT"
 const ROLLBACK = "ROLLBACK"
