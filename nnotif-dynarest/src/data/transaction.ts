@@ -21,4 +21,17 @@ const rollback = async (client: PoolClient): Promise<void> => {
   await client.query(ROLLBACK)
 }
 
-export { begin, commit, rollback }
+const withTx = async <T>(body: (tx: PoolClient) => Promise<T>): Promise<T> => {
+  const tx = await begin()
+
+  try {
+    const result = await body(tx)
+    await commit(tx)
+    return result
+  } catch (error) {
+    await rollback(tx)
+    throw error
+  }
+}
+
+export { begin, commit, rollback, withTx }

@@ -1,31 +1,31 @@
-import { type ResId } from "fundation"
+import { type Res, type ResId } from "fundation"
 import { type PoolClient } from "pg"
 
-const create = <T>(tx: PoolClient, id: ResId, content: T): T => {
+const create = async <T extends Res>(res: T, tx: PoolClient): Promise<T> => {
   throw new Error("not-implemented")
 }
 
-const fetch = <T>(tx: PoolClient, id: ResId): T => {
+const fetch = <T extends Res>(id: ResId, tx: PoolClient): T => {
   throw new Error("not-implemented")
 }
 
-const edit = <T>(tx: PoolClient, id: ResId, content: T): T => {
+const edit = <T extends Res>(res: T, tx: PoolClient): T => {
   throw new Error("not-implemented")
 }
 
-const upsert = <T>(tx: PoolClient, id: ResId, content: T): T => {
+const upsert = <T extends Res>(res: T, tx: PoolClient): T => {
   throw new Error("not-implemented")
 }
 
-const remove = <T>(tx: PoolClient, id: ResId): T => {
+const remove = <T extends Res>(id: ResId, tx: PoolClient): T | undefined => {
   throw new Error("not-implemented")
 }
 
-const total = (tx: PoolClient, query: string): number => {
+const total = (query: string, tx: PoolClient): number => {
   throw new Error("not-implemented")
 }
 
-const search = <T>(tx: PoolClient, type: string, query: string): T[] => {
+const search = async <T extends Res>({ type, query }: { type: string; query?: string }, tx: PoolClient): Promise<T[]> => {
   throw new Error("not-implemented")
 }
 
