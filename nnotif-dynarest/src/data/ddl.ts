@@ -1,3 +1,7 @@
+import { type PoolClient } from "pg"
+
+import { search } from "./storage"
+
 const storageDDL = (type: string): string => {
   const typeName = type.toLocaleLowerCase()
 
@@ -11,4 +15,23 @@ const storageDDL = (type: string): string => {
   return ddl
 }
 
-export { storageDDL }
+const alreadyProvisioned = async (type: string, tx: PoolClient): Promise<boolean> => {
+  try {
+    await search({ type }, tx)
+    return true
+  } catch (_error) {
+    return false
+  }
+}
+
+const provision = async (type: string, tx: PoolClient): Promise<void> => {
+  const provisioned = await alreadyProvisioned(type, tx)
+
+  if (provisioned)
+    return;
+
+  const ddl = storageDDL(type)
+  await tx.query(ddl)
+}
+
+export { storageDDL, alreadyProvisioned, provision }
