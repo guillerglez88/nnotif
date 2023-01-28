@@ -2,8 +2,9 @@ import debug from "debug"
 import http from "http"
 import { type AddressInfo } from "net"
 
+import { config } from "@libs/config"
+
 import { app } from "../app"
-import { config } from "../libs/config"
 
 debug("nnotif-dynarest:server")
 
@@ -18,11 +19,11 @@ const onError = (error: Error & { syscall: string; code: string }): void => {
 
   switch (error.code) {
     case "EACCES":
-      console.error("Port " + config.port + " requires elevated privileges")
+      console.error(`Port ${config.port} requires elevated privileges`)
       process.exit(1)
       break
     case "EADDRINUSE":
-      console.error("Port " + config.port + " is already in use")
+      console.error(`Port ${config.port} is already in use`)
       process.exit(1)
       break
     default:
