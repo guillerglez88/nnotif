@@ -19,15 +19,15 @@ export interface Route extends Res {
   name: string
   code: string
   method?: Method
-  path?: [
-    {
-      name: string
-      code: string
-      value?: string
-    },
-  ]
+  path?: RoutePathComp[]
   routes?: string
   resource?: "/Resource/resource"
+}
+
+export interface RoutePathComp {
+  name: string
+  code: string
+  value?: string
 }
 
 export interface Transaction extends Res {

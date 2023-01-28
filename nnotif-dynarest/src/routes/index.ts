@@ -1,37 +1,47 @@
 import express, { type Router } from "express"
 import { type Route } from "fundation"
 
+import { type Request, type Response } from "../types/aliases"
 import { calcMatchIndex, stringifyPath } from "../libs/routes"
 import { search } from "../data/storage"
 import { withTx } from "../data/transaction"
+import * as nerves from "../nerves"
+
+const handle = async (req: Request, res: Response, route: Route): Promise<void> => {
+  const nerve = nerves.pick(route.code)
+
+  await withTx(async (tx) => {
+    await nerve(req, res, route, tx)
+  })
+}
 
 const register = (route: Route, router: Router): void => {
   const strPath = stringifyPath(route)
 
   switch (route.method) {
     case "GET":
-      router.get(strPath, (req, res, _next) => {
-        res.status(200).json({ path: strPath })
+      router.get(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "POST":
-      router.post(strPath, (req, res, _next) => {
-        res.status(200).json({ path: strPath })
+      router.post(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "PUT":
-      router.put(strPath, (req, res, _next) => {
-        res.status(200).json({ path: strPath })
+      router.put(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "PATCH":
-      router.patch(strPath, (req, res, _next) => {
-        res.status(200).json({ path: strPath })
+      router.patch(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     case "DELETE":
-      router.delete(strPath, (req, res, _next) => {
-        res.status(200).json({ path: strPath })
+      router.delete(strPath, async (req, res) => {
+        await handle(req, res, route)
       })
       break
     default:
