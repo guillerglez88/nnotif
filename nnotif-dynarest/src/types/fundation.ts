@@ -7,6 +7,7 @@ export interface Res extends Ref {
   url?: string
   created?: Date
   modified?: Date
+  etag?: string
 }
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"

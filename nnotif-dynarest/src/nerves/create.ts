@@ -14,17 +14,22 @@ const handler = async (
 ): Promise<void> => {
   const type = getPathTypeValue(route)
   const idKey = getPathIdName(route)
-  const id = idKey === undefined ? undefined : req.params[idKey] as string | undefined
+  const id = idKey === undefined ? undefined : (req.params[idKey] as string | undefined)
   const content: Res = { ...req.body, type, id }
 
   if (type === "Resource") {
-    const resource = (content as Resource)
+    const resource = content as Resource
     await processRes(resource, tx)
   }
 
   const resource = await create(content, tx)
+  const etag = resource.etag as string
 
-  res.status(201).header("Location", resource.url).json(resource)
+  res
+    .status(201) //
+    .header("Location", resource.url)
+    .header("ETag", `"${etag}"`)
+    .json(resource)
 }
 
 export { handler }

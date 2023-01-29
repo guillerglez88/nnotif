@@ -9,6 +9,7 @@ const normalize = <T extends Res>(res: Row<T>): T => {
     url: `/${res.type}/${res.id}`,
     created: res.created,
     modified: res.modified,
+    etag: res.etag
   }
 }
 

@@ -16,8 +16,12 @@ const handler = async (
   const id = req.params[idKey] as string
 
   const resource = await fetch({ type, id }, tx)
+  const etag = resource.etag as string
 
-  res.status(200).json(resource)
+  res
+    .status(200) //
+    .header("ETag", `"${etag}"`)
+    .json(resource)
 }
 
 export { handler }
