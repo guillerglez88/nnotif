@@ -5,6 +5,18 @@
   "items": [
     {
       "method": "PUT",
+      "url": "/Seq/etag",
+      "body": {
+        "type": "Seq",
+        "id": "etag",
+        "desc": "Etag HTTP header sequence",
+        "start": 1,
+        "inc": 1,
+        "cache": 12
+      }
+    },
+    {
+      "method": "PUT",
       "url": "/Resource/resource",
       "body": {
         "type": "Resource",

@@ -53,7 +53,7 @@ const register = (route: Route, router: Router): void => {
 const loadRoutes = async (): Promise<Router> => {
   const router = express.Router()
 
-  const routes = await withTx(async (tx) => await search<Route>({ type: "Route" }, tx))
+  const routes = await withTx(async (tx) => await search<Route>("Route", [], tx))
   const sorted = routes.sort((a, b) => calcMatchIndex(b) - calcMatchIndex(a))
 
   for (const route of sorted) {

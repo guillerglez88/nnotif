@@ -17,9 +17,11 @@ const handler = async (
   const content: Res = { ...req.body, type, id }
 
   const resource = await edit(content, tx)
+  const etag = resource.etag as string
 
   res
-    .status(200)
+    .status(200) //
+    .header("ETag", `"${etag}"`)
     .json(resource)
 }
 

@@ -1,61 +1,61 @@
 import { type PoolClient } from "pg"
 import { v4 as uuid } from "uuid"
-import { type Row } from "data"
-import { type Res, type ResId } from "fundation"
+import { type Res, type Ref } from "fundation"
+import { type Sql } from "aliases"
 
 import { normalize } from "../libs/resource"
+import { insert, update } from "./dml"
+import { find, list } from "./dql"
 
-const create = async <T extends Res>(res: T, tx: PoolClient): Promise<T> => {
-  const id = res.id ?? uuid()
-  const type = res.type.toLocaleLowerCase()
-  const created = new Date().toUTCString()
-  const modified = new Date().toUTCString()
+const create = async <T extends Res>(resource: T, tx: PoolClient): Promise<T> => {
+  const row = await insert(
+    {
+      resource,
+      id: resource.id ?? uuid(),
+      type: resource.type,
+      created: new Date(),
+      modified: new Date(),
+    },
+    tx,
+  )
 
-  const sql = `INSERT INTO ${type}(id, resource, created, modified) VALUES($1, $2, $3, $4) RETURNING *`
-  const params = [id, res, created, modified]
-
-  const { rows } = await tx.query<Row<T>>(sql, params)
-
-  return rows.map((row) => normalize(type, row))[0]
+  return normalize<T>(row)
 }
 
-const fetch = async <T extends Res>(id: ResId, tx: PoolClient): Promise<T> => {
-  const sql = `SELECT * FROM ${id.type} WHERE id = $1`
-  const params = [id.id]
+const fetch = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T> => {
+  const row = await find<T>(ref, tx)
 
-  const { rows } = await tx.query<Row<T>>(sql, params)
+  if (row === undefined) return row
 
-  return rows.map((row) => normalize(id.type, row))[0]
+  return normalize<T>(row)
 }
 
-const edit = async <T extends Res>(res: T, tx: PoolClient): Promise<T> => {
-  const id = res.id
-  const type = res.type.toLocaleLowerCase()
-  const modified = new Date().toUTCString()
+const edit = async <T extends Res>(resource: T, tx: PoolClient): Promise<T> => {
+  const row = await update(
+    {
+      resource,
+      id: resource.id as string,
+      type: resource.type,
+      modified: new Date(),
+    },
+    tx,
+  )
 
-  const sql = `UPDATE ${type} SET resource=$1, modified=$2 WHERE id=$3 RETURNING *`
-  const params = [res, modified, id]
-
-  const { rows } = await tx.query<Row<T>>(sql, params)
-
-  return rows.map((row) => normalize(type, row))[0]
+  return normalize<T>(row)
 }
 
-const remove = <T extends Res>(id: ResId, tx: PoolClient): T | undefined => {
+const remove = <T extends Res>(_ref: Ref, _tx: PoolClient): T | undefined => {
   throw new Error("not-implemented")
 }
 
-const total = (query: string, tx: PoolClient): number => {
+const total = (_dql: Sql, _tx: PoolClient): number => {
   throw new Error("not-implemented")
 }
 
-const search = async <T extends Res>(
-  { type, query }: { type: string; query?: string },
-  tx: PoolClient,
-): Promise<T[]> => {
-  const { rows } = await tx.query<Row<T>>(`SELECT * FROM ${type} LIMIT 128`)
+const search = async <T extends Res>(type: string, _dql: Sql, tx: PoolClient): Promise<T[]> => {
+  const rows = await list<T>(type, 128, tx)
 
-  return rows.map((row) => normalize(type, row))
+  return rows.map(normalize<T>)
 }
 
 export { create, fetch, edit, remove, total, search }

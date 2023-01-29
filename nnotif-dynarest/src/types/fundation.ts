@@ -1,12 +1,13 @@
-export interface ResId {
+export interface Ref {
   type: string
   id?: string
 }
 
-export interface Res extends ResId {
+export interface Res extends Ref {
   url?: string
   created?: Date
   modified?: Date
+  etag?: string
 }
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -47,4 +48,12 @@ export interface Resource extends Res {
   status: string
   of: string
   routes?: string
+}
+
+export interface Seq extends Res {
+  type: "Seq"
+  desc?: string
+  start?: number
+  inc?: number
+  cache?: number
 }

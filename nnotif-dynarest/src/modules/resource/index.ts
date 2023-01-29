@@ -5,7 +5,7 @@ import fs from "fs"
 import path from "path"
 
 import { create } from "../../data/storage"
-import { provision } from "../../data/ddl"
+import { createTable } from "../../data/ddl"
 
 const processRes = async (res: Resource, tx: PoolClient): Promise<void> => {
   const tplPath = path.resolve(__dirname, "trn.json.tpl")
@@ -15,7 +15,7 @@ const processRes = async (res: Resource, tx: PoolClient): Promise<void> => {
   const json = mustache.render(tpl, model)
   const trn: Transaction = JSON.parse(json)
 
-  await provision(res.of, tx)
+  await createTable(res.of, tx)
 
   for (const item of trn.items) {
     await create(item.body, tx)
