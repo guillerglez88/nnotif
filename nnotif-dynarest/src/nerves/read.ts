@@ -1,6 +1,6 @@
 import { type Request, type Response } from "aliases"
-import { type Route } from "fundation"
 import { type PoolClient } from "pg"
+import { type Route } from "fundation"
 
 import { getPathIdName, getPathTypeValue } from "../libs/routes"
 import { fetch } from "../data/storage"

@@ -5,7 +5,6 @@ import { type PoolClient } from "pg"
 import { create } from "../data/storage"
 import { getPathIdName, getPathTypeValue } from "../libs/routes"
 import { processRes } from "../modules/resource"
-import { provision } from "../data/ddl"
 
 const handler = async (
   req: Request,
@@ -20,7 +19,6 @@ const handler = async (
 
   if (type === "Resource") {
     const resource = (content as Resource)
-    await provision(resource.of, tx)
     await processRes(resource, tx)
   }
 
