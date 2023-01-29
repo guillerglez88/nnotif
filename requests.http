@@ -8,11 +8,26 @@ GET {{base-url}}/Resource/route
 
 ###
 
-# @name create
 POST {{base-url}}/Resource
 Content-Type: application/json
 
 {
+    "type": "Resource",
+    "id": "person",
+    "of": "Person",
+    "desc": "Human being",
+    "routes": "/List?_of=Route&res-type=Person",
+    "status": "/Coding/resource-statuses?code=pending"
+}
+
+###
+
+# @name create
+POST {{base-url}}/Person
+Content-Type: application/json
+
+{
+    "type": "Person",
     "name": [{
         "given": ["John"],
         "family": "Doe"
@@ -21,15 +36,15 @@ Content-Type: application/json
 }
 ###
 
-GET {{base-url}}/Resource/{{create.response.body.id}}
+GET {{base-url}}/Person/{{create.response.body.id}}
 
 ###
 
-DELETE {{base-url}}/Resource/{{create.response.body.id}}
+DELETE {{base-url}}/Person/{{create.response.body.id}}
 
 ###
 
-PUT {{base-url}}/Resource/{{create.response.body.id}}
+PUT {{base-url}}/Person/{{create.response.body.id}}
 Content-Type: application/json
 
 {

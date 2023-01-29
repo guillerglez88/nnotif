@@ -35,7 +35,16 @@ export interface RoutePathComp {
 }
 
 export interface Transaction extends Res {
+  type: "Transaction"
   status: string
   mode: string
   items: Req[]
+}
+
+export interface Resource extends Res {
+  type: "Resource"
+  desc?: string
+  status: string
+  of: string
+  routes?: string
 }

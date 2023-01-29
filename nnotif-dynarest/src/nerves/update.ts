@@ -12,7 +12,8 @@ const handler = async (
   tx: PoolClient,
 ): Promise<void> => {
   const type = getPathTypeValue(route)
-  const id = req.params[getPathIdName(route)] as string
+  const idKey = getPathIdName(route) as string
+  const id = req.params[idKey] as string
   const content: Res = { ...req.body, type, id }
 
   const resource = await edit(content, tx)
