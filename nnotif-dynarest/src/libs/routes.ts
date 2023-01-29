@@ -16,8 +16,8 @@ const getPathTypeValue = (route: Route): string => {
   return getPathComp("/Coding/wellknown-params?code=type", route).value as string
 }
 
-const getPathIdName = (route: Route): string => {
-  return getPathComp("/Coding/wellknown-params?code=id", route).name
+const getPathIdName = (route: Route): string | undefined => {
+  return getPathComp("/Coding/wellknown-params?code=id", route)?.name
 }
 
 export { calcMatchIndex, stringifyPath, getPathComp, getPathTypeValue, getPathIdName }
