@@ -61,6 +61,7 @@ In star model architecture, this service represents the center of the star. It w
 | upsert    |      ✅      | `PUT    /:type/:id `    |
 | remove    |      ❌      | `DELETE /:type/:id `    |
 | search    |      ❌      | `GET    /List?of=:type` |
+| etag      |      ✅      | `GET    /:type/:id `    |
 
 ### Dev
 
