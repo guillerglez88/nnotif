@@ -18,8 +18,7 @@ const listDQL = (type: string, limit: number): Sql => {
   const dql: Sql = [
     `SELECT * 
      FROM ${type} 
-     LIMIT $1`,
-    limit,
+     LIMIT ${limit}`,
   ]
 
   return dql
@@ -32,7 +31,11 @@ const find = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<Row<T>> =>
   return rows[0]
 }
 
-const list = async <T extends Res>(type: string, limit: number, tx: PoolClient): Promise<Array<Row<T>>> => {
+const list = async <T extends Res>(
+  type: string,
+  limit: number,
+  tx: PoolClient,
+): Promise<Array<Row<T>>> => {
   const [dql, ...params]: Sql = listDQL(type, limit)
   const { rows } = await tx.query<Row<T>>(dql as string, params)
 

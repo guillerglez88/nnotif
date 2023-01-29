@@ -2,27 +2,26 @@ import { Pool, type PoolClient } from "pg"
 
 import { config } from "../libs/config"
 
-const COMMIT = "COMMIT"
-const ROLLBACK = "ROLLBACK"
-
 const pool = new Pool({ connectionString: config.db })
 
-const begin = async (): Promise<PoolClient> => {
+const begin = async (): Promise<[PoolClient, () => void]> => {
   const client = await pool.connect()
 
-  return client
+  await client.query("BEGIN")
+
+  return [client, () => { client.release(); }]
 }
 
-const commit = async (client: PoolClient): Promise<void> => {
-  await client.query(COMMIT)
+const commit = async (tx: PoolClient): Promise<void> => {
+  await tx.query("COMMIT")
 }
 
-const rollback = async (client: PoolClient): Promise<void> => {
-  await client.query(ROLLBACK)
+const rollback = async (tx: PoolClient): Promise<void> => {
+  await tx.query("ROLLBACK")
 }
 
 const withTx = async <T>(body: (tx: PoolClient) => Promise<T>): Promise<T> => {
-  const tx = await begin()
+  const [tx, release] = await begin()
 
   try {
     const result = await body(tx)
@@ -31,6 +30,8 @@ const withTx = async <T>(body: (tx: PoolClient) => Promise<T>): Promise<T> => {
   } catch (error) {
     await rollback(tx)
     throw error
+  } finally {
+    release()
   }
 }
 

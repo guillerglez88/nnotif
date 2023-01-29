@@ -44,11 +44,11 @@ const edit = async <T extends Res>(resource: T, tx: PoolClient): Promise<T> => {
   return normalize<T>(row)
 }
 
-const remove = <T extends Res>(ref: Ref, tx: PoolClient): T | undefined => {
+const remove = <T extends Res>(_ref: Ref, _tx: PoolClient): T | undefined => {
   throw new Error("not-implemented")
 }
 
-const total = (_dql: Sql, tx: PoolClient): number => {
+const total = (_dql: Sql, _tx: PoolClient): number => {
   throw new Error("not-implemented")
 }
 

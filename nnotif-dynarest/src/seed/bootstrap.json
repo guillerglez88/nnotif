@@ -5,14 +5,13 @@
   "items": [
     {
       "method": "PUT",
-      "url": "/Sequence/etag",
+      "url": "/Seq/etag",
       "body": {
-        "type": "Sequence",
+        "type": "Seq",
         "id": "etag",
-        "desc": "Etag HTTP header source",
-        "min": 1,
-        "max": 9223372036854775807,
+        "desc": "Etag HTTP header sequence",
         "start": 1,
+        "inc": 1,
         "cache": 12
       }
     },

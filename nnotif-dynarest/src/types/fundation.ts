@@ -49,11 +49,9 @@ export interface Resource extends Res {
   routes?: string
 }
 
-export interface Sequence extends Res {
-  type: "Sequence"
+export interface Seq extends Res {
+  type: "Seq"
   desc?: string
-  min?: number
-  max?: number
   start?: number
   inc?: number
   cache?: number
