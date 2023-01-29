@@ -49,21 +49,22 @@ Open this [link](http://localhost:3000/Resource/resource) in browser to se self 
 
 ## nnotif-dynarest [wip 🛠]
 
-In star model architecture, this service represents the center of the star. It will bring all the core and generic features for all the platform. It is a dynamic, data-driven, metadata-oriented, self-descriving REST server. That is, everithing is data, including the routes being registered to ExpressJS.
+In a star style architecture, this service represents the center of the star. It will bring all the core and generic features for all the platform. It is a dynamic, data-driven, metadata-oriented, self-descriving REST server. That is, everithing is data, including the routes being registered to ExpressJS.
 
 
 ### Capabilities
 
-| operation | implemented | sample request          |
-| --------- | :---------: | ----------------------- |
-| create    |      ✅      | `POST   /:type        ` |
-| read      |      ✅      | `GET    /:type/:id    ` |
-| upsert    |      ✅      | `PUT    /:type/:id    ` |
-| remove    |      ❌      | `DELETE /:type/:id    ` |
-| search    |      ❌      | `GET    /List?of=:type` |
-| etag      |      ✅      | `GET    /:type/:id    ` |
-| resource  |      ✅      | `POST   /Resource     ` |
-| seq       |      ❌      | `POST   /Seq          ` |
+| operation   | implemented | sample request          |
+| ----------- | :---------: | ----------------------- |
+| create      |      ✅      | `POST   /:type        ` |
+| read        |      ✅      | `GET    /:type/:id    ` |
+| upsert      |      ✅      | `PUT    /:type/:id    ` |
+| remove      |      ❌      | `DELETE /:type/:id    ` |
+| search      |      ❌      | `GET    /List?of=:type` |
+| etag        |      ✅      | `GET    /:type/:id    ` |
+| resource    |      ✅      | `POST   /Resource     ` |
+| seq         |      ❌      | `POST   /Seq          ` |
+| validations |      ❌      | `POST   /:type        ` |
 
 ### Dev
 
