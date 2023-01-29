@@ -56,12 +56,14 @@ In star model architecture, this service represents the center of the star. It w
 
 | operation | implemented | sample request          |
 | --------- | :---------: | ----------------------- |
-| create    |      ✅      | `POST   /:type     `    |
-| read      |      ✅      | `GET    /:type/:id `    |
-| upsert    |      ✅      | `PUT    /:type/:id `    |
-| remove    |      ❌      | `DELETE /:type/:id `    |
+| create    |      ✅      | `POST   /:type        ` |
+| read      |      ✅      | `GET    /:type/:id    ` |
+| upsert    |      ✅      | `PUT    /:type/:id    ` |
+| remove    |      ❌      | `DELETE /:type/:id    ` |
 | search    |      ❌      | `GET    /List?of=:type` |
-| etag      |      ✅      | `GET    /:type/:id `    |
+| etag      |      ✅      | `GET    /:type/:id    ` |
+| resource  |      ✅      | `POST   /Resource     ` |
+| seq       |      ❌      | `POST   /Seq          ` |
 
 ### Dev
 
