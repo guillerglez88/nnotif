@@ -2,13 +2,14 @@ import { type Sql } from "aliases"
 import { type Sequence } from "fundation"
 import { type PoolClient } from "pg"
 
-import { search } from "./storage"
+import { list } from "./dql"
 
 const createTableDDL = (type: string): Sql => {
   const typeName = type.toLocaleLowerCase()
 
   const ddl = [`CREATE TABLE IF NOT EXISTS public.${typeName} (
         id          TEXT             NOT NULL,
+        type        TEXT             NOT NULL,
         resource    JSONB            NOT NULL,
         created     timestamptz      NOT NULL,
         modified    timestamptz      NOT NULL,
@@ -33,7 +34,7 @@ const createSeqDDL = (seq: Sequence): Sql => {
 
 const tableExists = async (type: string, tx: PoolClient): Promise<boolean> => {
   try {
-    await search({ type }, tx)
+    await list(type, 1, tx)
     return true
   } catch (_error) {
     return false

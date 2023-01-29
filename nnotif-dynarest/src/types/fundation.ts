@@ -1,9 +1,9 @@
-export interface ResId {
+export interface Ref {
   type: string
   id?: string
 }
 
-export interface Res extends ResId {
+export interface Res extends Ref {
   url?: string
   created?: Date
   modified?: Date
