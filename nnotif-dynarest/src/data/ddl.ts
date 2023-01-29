@@ -14,6 +14,7 @@ const createTableDDL = (type: string): Sql => {
         resource    JSONB            NOT NULL,
         created     timestamptz      NOT NULL,
         modified    timestamptz      NOT NULL,
+        etag        TEXT             NOT NULL DEFAULT nextval('etag'),
         CONSTRAINT  ${typeName}_pk PRIMARY KEY (id))`,
   ]
 

@@ -6,4 +6,5 @@ export interface Row<T extends Res> {
   created: Date
   modified: Date
   resource: T
+  etag: string
 }

@@ -1,9 +1,9 @@
-import { type Sql } from "aliases"
+import { type UpRow, type Sql, type InRow } from "aliases"
 import { type Row } from "data"
 import { type Res } from "fundation"
 import { type PoolClient } from "pg"
 
-const insertDML = <T extends Res>(row: Row<T>): Sql => {
+const insertDML = <T extends Res>(row: InRow<T>): Sql => {
   const sql: Sql = [
     `INSERT INTO ${row.type}
             (id, type, resource, created, modified) 
@@ -13,7 +13,7 @@ const insertDML = <T extends Res>(row: Row<T>): Sql => {
     row.type,
     row.resource,
     row.created,
-    row.modified,
+    row.modified
   ]
 
   return sql
@@ -22,8 +22,9 @@ const insertDML = <T extends Res>(row: Row<T>): Sql => {
 const updateDML = <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "id" | "type">): Sql => {
   const sql: Sql = [
     `UPDATE ${row.type} 
-     SET resource=$1, 
-         modified=$2 
+     SET resource = $1, 
+         modified = $2 
+         etag = nextval('etag')
          WHERE id=$3 
      RETURNING *`,
     row.resource,
@@ -34,14 +35,14 @@ const updateDML = <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "i
   return sql
 }
 
-const insert = async <T extends Res>(row: Row<T>, tx: PoolClient): Promise<Row<T>> => {
+const insert = async <T extends Res>(row: InRow<T>, tx: PoolClient): Promise<Row<T>> => {
   const [sql, ...params] = insertDML(row)
   const { rows } = await tx.query<Row<T>>(sql as string, params)
 
   return rows[0]
 }
 
-const update = async <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "id" | "type">, tx: PoolClient): Promise<Row<T>> => {
+const update = async <T extends Res>(row: UpRow<T>, tx: PoolClient): Promise<Row<T>> => {
   const [sql, ...params] = updateDML(row)
   const { rows } = await tx.query<Row<T>>(sql as string, params)
 
