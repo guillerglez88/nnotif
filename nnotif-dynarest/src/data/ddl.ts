@@ -1,32 +1,34 @@
+import { type Sql } from "aliases"
+import { type Sequence } from "fundation"
 import { type PoolClient } from "pg"
 
 import { search } from "./storage"
 
-const createTableDDL = (type: string): string => {
+const createTableDDL = (type: string): Sql => {
   const typeName = type.toLocaleLowerCase()
 
-  const ddl = `CREATE TABLE IF NOT EXISTS public.${typeName} (
+  const ddl = [`CREATE TABLE IF NOT EXISTS public.${typeName} (
         id          TEXT             NOT NULL,
         resource    JSONB            NOT NULL,
         created     timestamptz      NOT NULL,
         modified    timestamptz      NOT NULL,
-        CONSTRAINT  ${typeName}_pk PRIMARY KEY (id));`
+        CONSTRAINT  ${typeName}_pk PRIMARY KEY (id));`]
 
-  return ddl
+  return [ddl]
 }
 
-const createSeqDDL = (name: string): string => {
-  const seqName = name.toLocaleLowerCase()
+const createSeqDDL = (seq: Sequence): Sql => {
+  const name = (seq.id as string).toLocaleLowerCase()
 
-  const ddl = `CREATE SEQUENCE IF NOT EXISTS public.${seqName}
-        INCREMENT BY 1
-        MINVALUE 1
-        MAXVALUE 9223372036854775807
-        START 1
-        CACHE 1
+  const ddl = `CREATE SEQUENCE IF NOT EXISTS public.${name}
+        MINVALUE $1
+        MAXVALUE $2
+        START $3
+        INCREMENT BY $4
+        CACHE $5
         NO CYCLE;`
 
-  return ddl
+  return [ddl, seq.min, seq.max, seq.start, seq.inc, seq.cache]
 }
 
 const tableExists = async (type: string, tx: PoolClient): Promise<boolean> => {
@@ -44,8 +46,8 @@ const createTable = async (type: string, tx: PoolClient): Promise<void> => {
   if (exists)
     return;
 
-  const ddl = createTableDDL(type)
-  await tx.query(ddl)
+  const [ddl] = createTableDDL(type)
+  await tx.query(ddl as string)
 }
 
 export { createTableDDL, createSeqDDL, tableExists, createTable }

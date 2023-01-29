@@ -9,3 +9,5 @@ export type Request = ExpressRequest<
 >
 
 export type Response = ExpressResponse
+
+export type Sql = Array<string | unknown>
