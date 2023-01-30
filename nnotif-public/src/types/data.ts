@@ -22,6 +22,6 @@ export interface Res {
 
 export interface UserSubs extends Subs, Res {
   type: "UserSubs"
-  url: string
-  etag: string
+  url?: string
+  etag?: string
 }

@@ -8,6 +8,7 @@ describe("Subscriptions validations", () => {
     const result = sut.validateSubs(subs)
 
     expect(result).toEqual({
+      type: "Outcome",
       issues: [
         {
           level: "error",
