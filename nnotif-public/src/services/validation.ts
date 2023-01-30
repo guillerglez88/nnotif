@@ -37,6 +37,16 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
         },
       ],
     },
+    {
+      test: subs !== undefined && subs.dob === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `dob: string` is required",
+        },
+      ],
+    },
   ])
 
   return outcome

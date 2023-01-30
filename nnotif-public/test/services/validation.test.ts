@@ -73,4 +73,29 @@ describe("Subscriptions validations", () => {
       ],
     })
   })
+
+  it("Date of birth is required", () => {
+    const subs: Partial<Subs> = {
+      name: {
+        given: ["John"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      gender: "male",
+      consent: true,
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `dob: string` is required",
+        },
+      ],
+    })
+  })
 })
