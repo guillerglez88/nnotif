@@ -1,5 +1,13 @@
 import { type Res, type Resp } from "fundation"
 
+const ok = <T extends Res>(res: T): Resp => ({
+  status: 200,
+  headers: {
+    ETag: `"${res.etag as string}"`,
+  },
+  body: res,
+})
+
 const created = <T extends Res>(res: T): Resp => ({
   status: 201,
   headers: {
@@ -9,4 +17,4 @@ const created = <T extends Res>(res: T): Resp => ({
   body: res,
 })
 
-export { created }
+export { ok, created }
