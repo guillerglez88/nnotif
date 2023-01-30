@@ -64,7 +64,17 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
         {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
-          desc: "Prop: `consent: boolean` is required"
+          desc: "Prop: `consent: boolean` is required",
+        },
+      ],
+    },
+    {
+      test: subs?.consent !== undefined && !subs.consent,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=business-rule",
+          desc: "Sorry, you must consent on data manipulation",
         },
       ],
     },

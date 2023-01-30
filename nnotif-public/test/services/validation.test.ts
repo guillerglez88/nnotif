@@ -149,4 +149,31 @@ describe("Subscriptions validations", () => {
       ],
     })
   })
+
+
+  it("Consent should be true", () => {
+    const subs: Partial<Subs> = {
+      name: {
+        given: ["John"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      dob: "1988-04-18",
+      gender: "male",
+      newsLetterId: "f03aad4e",
+      consent: false
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=business-rule",
+          desc: "Sorry, you must consent on data manipulation",
+        },
+      ],
+    })
+  })
 })
