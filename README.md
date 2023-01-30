@@ -13,6 +13,7 @@ Prove of concept for a user notifications platform in NodeJS
 | linter            | eslint         |     8.32.0 |                       |
 | formatter         | prettier       |      2.8.3 |                       |
 | api               | expressjs      |     4.18.2 |                       |
+| test              | jest           |     29.4.1 |                       |
 | db                | postgres       |       14.5 | polyglot(SQL & NoSql) |
 | container         | docker(linux)  |     4.13.0 | docker-desktop        |
 | orchestrator:dev  | docker-compose |     2.11.2 | docker-desktop        |
