@@ -1,6 +1,6 @@
 import { type InRow, type UpRow } from "aliases"
 import { type Row } from "data"
-import { type Resource } from "fundation"
+import { type Route, type Resource } from "fundation"
 
 const resource: Resource = {
   type: "Resource",
@@ -35,4 +35,74 @@ const upRow: UpRow<Resource> = {
   type: "Resource",
 }
 
-export { resource, row, inRow, upRow }
+const notFoundRoute: Route = {
+  type: "Route",
+  name: "not-found",
+  code: "/Coding/nerves?code=not-found",
+  routes: "/List?_of=Route",
+}
+
+const createResRoute: Route = {
+  type: "Route",
+  method: "POST",
+  path: [
+    {
+      name: "_type",
+      code: "/Coding/wellknown-params?code=type",
+      value: "Resource",
+    },
+  ],
+  name: "create-resource",
+  code: "/Coding/nerves?code=create",
+  resource: "/Resource/resource",
+}
+
+const readResRoute: Route = {
+  type: "Route",
+  method: "GET",
+  path: [
+    {
+      name: "_type",
+      code: "/Coding/wellknown-params?code=type",
+      value: "Resource",
+    },
+    {
+      name: "_id",
+      code: "/Coding/wellknown-params?code=id",
+    },
+  ],
+  name: "read-resource",
+  code: "/Coding/nerves?code=read",
+  resource: "/Resource/resource",
+}
+
+const readResResolvedRoute: Route = {
+  type: "Route",
+  method: "GET",
+  path: [
+    {
+      name: "_type",
+      code: "/Coding/wellknown-params?code=type",
+      value: "Resource",
+    },
+    {
+      name: "_id",
+      code: "/Coding/wellknown-params?code=id",
+      value: "1",
+    },
+  ],
+  name: "read-resource",
+  code: "/Coding/nerves?code=read",
+  resource: "/Resource/resource",
+}
+
+export {
+  resource,
+  row,
+  inRow,
+  upRow,
+  createResRoute,
+  readResRoute,
+  readResResolvedRoute,
+  notFoundRoute,
+}
