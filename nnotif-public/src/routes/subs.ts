@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { type CreateSubsReq } from "aliases"
+import { type UpdateSubsReq, type CreateSubsReq } from "aliases"
 import express from "express"
 import { type UserSubs } from "data"
 
-import { create } from "../services/dynarest"
+import { create, update } from "../services/dynarest"
 import { validateSubs } from "../services/validation"
 import { fold, isValid } from "../libs/outcome"
 import { mapFromUserSubs } from "../libs/mappers"
@@ -41,6 +41,41 @@ subs.post("/subs", async (req: CreateSubsReq, res) => {
   if (result.loc !== undefined) {
     res.header("Location", result.loc)
   }
+
+  if (result.etag !== undefined) {
+    res.header("ETag", `"${result.etag}"`)
+  }
+
+  res.status(result.status).json({ ...result.body })
+})
+
+subs.put("/subs/:id", async (req: UpdateSubsReq, res) => {
+  const outcome = validateSubs(req.body)
+
+  if (!isValid(outcome)) {
+    res.status(400).json({ ...outcome })
+  }
+
+  const resp = await update<UserSubs>({
+    type: "UserSubs",
+    id: req.params.id,
+    ...req.body,
+  })
+
+  const result = fold(
+    resp,
+    (resource) => ({
+      status: 200,
+      etag: resource.etag,
+      body: mapFromUserSubs(resource) as object,
+    }),
+    (outcome) => ({
+      status: 500,
+      loc: undefined,
+      etag: undefined,
+      body: outcome,
+    }),
+  )
 
   if (result.etag !== undefined) {
     res.header("ETag", `"${result.etag}"`)

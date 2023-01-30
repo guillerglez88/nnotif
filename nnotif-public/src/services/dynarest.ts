@@ -22,4 +22,19 @@ const create = async <T extends Res>(res: T): Promise<Outcome | T> => {
   return await validateResp<T>(resp)
 }
 
-export { create }
+const update = async <T extends Res>(res: T): Promise<Outcome | T> => {
+  const url = `${baseUrl}/${res.type}/${res.id as string}`
+
+  const resp = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(res),
+  })
+
+  return await validateResp<T>(resp)
+}
+
+export { create, update }
