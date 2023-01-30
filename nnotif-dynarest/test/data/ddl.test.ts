@@ -5,6 +5,7 @@
  */
 
 import { type Seq } from "fundation"
+
 import * as sut from "../../src/data/ddl"
 
 describe("SQL-DDL operations", () => {
