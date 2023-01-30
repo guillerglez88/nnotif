@@ -69,14 +69,16 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3005/subs
+POST http://localhost:3000/UserSubs
+Accept: application/json
 Content-Type: application/json
 
 {
     "name": {
         "given": [
             "John"
-        ]
+        ],
+        "family": ["Doe"]
     },
     "email": "nnotif-no-reply@mailinator.com",
     "gender": "male",

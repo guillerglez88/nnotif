@@ -1,4 +1,5 @@
 export interface Subs {
+  id?: string
   email: string
   name?: HumanName
   gender?: string

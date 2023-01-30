@@ -24,6 +24,7 @@ describe("Mappings", () => {
     const result = sut.mapFromUserSubs(usubs)
 
     expect(result).toEqual({
+      id: "1",
       email: "nnotif-no-reply@mailinator.com",
       name: {
         given: ["John"],
