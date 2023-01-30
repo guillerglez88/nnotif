@@ -78,6 +78,16 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
         },
       ],
     },
+    {
+      test: subs !== undefined && subs.newsLetterId === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop `newsLetterId` is required",
+        },
+      ],
+    },
   ])
 
   return outcome
