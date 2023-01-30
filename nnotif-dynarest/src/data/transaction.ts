@@ -9,7 +9,12 @@ const begin = async (): Promise<[PoolClient, () => void]> => {
 
   await client.query("BEGIN")
 
-  return [client, () => { client.release(); }]
+  return [
+    client,
+    () => {
+      client.release()
+    },
+  ]
 }
 
 const commit = async (tx: PoolClient): Promise<void> => {
