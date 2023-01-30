@@ -28,7 +28,7 @@ describe("Validation outcome tests", () => {
   })
 
   it("Can fold success result", () => {
-    const source: Outcome | { prop: string } = { prop: "blah"}
+    const source: Outcome | { prop: string } = { prop: "blah" }
 
     const result = sut.fold(
       source,
@@ -37,5 +37,41 @@ describe("Validation outcome tests", () => {
     )
 
     expect(result).toBe("success")
+  })
+
+  it("Can convert checks into outcome", () => {
+    const result = sut.check([
+      {
+        test: true,
+        issues: [
+          {
+            level: "error",
+            code: "/Coding/nnotif-public-subs-issue?code=exception",
+            desc: "foo",
+          },
+        ],
+      },
+      {
+        test: false,
+        issues: [
+          {
+            level: "error",
+            code: "/Coding/nnotif-public-subs-issue?code=exception",
+            desc: "bar",
+          },
+        ],
+      },
+    ])
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=exception",
+          desc: "foo",
+        },
+      ],
+    })
   })
 })
