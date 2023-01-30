@@ -18,8 +18,9 @@ subs.post("/subs", async (req: CreateSubsReq, res) => {
   }
 
   const resp = await create<UserSubs>({
-    type: "UserSubs",
     ...req.body,
+    type: "UserSubs",
+    status: `/Coding/usersubs-status?code=${req.body.status}`,
   })
 
   const result = fold(
@@ -57,9 +58,10 @@ subs.put("/subs/:id", async (req: UpdateSubsReq, res) => {
   }
 
   const resp = await update<UserSubs>({
+    ...req.body,
     type: "UserSubs",
     id: req.params.id,
-    ...req.body,
+    status: `/Coding/usersubs-status?code=${req.body.status}`,
   })
 
   const result = fold(

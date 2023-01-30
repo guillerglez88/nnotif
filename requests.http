@@ -69,7 +69,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3001/subs/
+PUT http://localhost:3001/subs/93afeb95-234f-4b90-a440-c6aec244eed4
 Accept: application/json
 Content-Type: application/json
 
