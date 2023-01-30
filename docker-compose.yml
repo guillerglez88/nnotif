@@ -32,5 +32,15 @@ services:
       NODE_ENV: production
     ports:
       - 3001:3001
+  nnotif-email:
+    image: nnotif-email
+    build:
+      context: ./nnotif-email
+      dockerfile: ./Dockerfile
+      target: prod
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3002:3002
 volumes:
   dbdata: {}
