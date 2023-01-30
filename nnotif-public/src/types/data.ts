@@ -14,3 +14,8 @@ export interface HumanName {
     prefix?: string[]
     suffix?: string[]
 }
+
+export interface Res {
+    id?: string
+    type: string
+}
