@@ -2,6 +2,7 @@
  * @group unit
  */
 
+import { type NullableSubs } from "aliases"
 import { type Subs } from "data"
 import * as sut from "../../src/services/validation"
 
@@ -196,6 +197,32 @@ describe("Subscriptions validations", () => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop `newsLetterId` is required",
+        },
+      ],
+    })
+  })
+
+  it("Given name is required", () => {
+    const subs: NullableSubs = {
+      name: {
+        family: ["Doe"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      dob: "1988-04-18",
+      gender: "male",
+      consent: true,
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop `name.given` is required",
         },
       ],
     })

@@ -1,5 +1,5 @@
 import { type Request } from "express"
-import { type Subs } from "data"
+import { type HumanName, type Subs } from "data"
 
 export type CreateSubsReq = Request<
   Record<string, unknown>,
@@ -7,3 +7,5 @@ export type CreateSubsReq = Request<
   Subs,
   Record<string, unknown>
 >
+
+export type NullableSubs = Partial<Omit<Subs, "name"> & { name: Partial<HumanName> }>

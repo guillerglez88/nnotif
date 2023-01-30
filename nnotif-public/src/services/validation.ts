@@ -1,4 +1,4 @@
-import { type Subs } from "data"
+import { type NullableSubs } from "aliases"
 import { type Outcome } from "validation"
 import { type Response } from "node-fetch"
 
@@ -6,7 +6,7 @@ import { check, mapValid } from "../libs/outcome"
 import { isValidEmail } from "../libs/email"
 import { isValidDob } from "../libs/dob"
 
-const validateSubs = (subs?: Partial<Subs>): Outcome => {
+const validateSubs = (subs?: NullableSubs): Outcome => {
   const outcome: Outcome = check([
     {
       test: subs === undefined,
@@ -85,6 +85,16 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop `newsLetterId` is required",
+        },
+      ],
+    },
+    {
+      test: subs !== undefined && subs.name?.given === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop `name.given` is required",
         },
       ],
     },
