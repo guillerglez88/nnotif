@@ -19,6 +19,12 @@ export interface Req {
   status?: number
 }
 
+export interface Resp {
+  status: number,
+  body: Res,
+  headers?: Record<string, string>
+}
+
 export interface Route extends Res {
   type: "Route"
   name: string
