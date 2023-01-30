@@ -1,11 +1,13 @@
 import { type Res } from "data"
-import fetch, { type Response } from "node-fetch"
+import fetch from "node-fetch"
+import { type Outcome } from "validation"
 
 import { config } from "../libs/config"
+import { validateResp } from "./validation"
 
 const baseUrl = config.dynarest.replace(/\/$/, "")
 
-const create = async <T extends Res>(res: T): Promise<Response> => {
+const create = async <T extends Res>(res: T): Promise<Outcome | T> => {
   const url = `${baseUrl}/${res.type}`
 
   const resp = await fetch(url, {
@@ -13,7 +15,7 @@ const create = async <T extends Res>(res: T): Promise<Response> => {
     body: JSON.stringify(res),
   })
 
-  return resp
+  return await validateResp<T>(resp)
 }
 
 export { create }

@@ -5,7 +5,7 @@ describe("Subscriptions validations", () => {
   it("Should be not null", () => {
     const subs: Subs | undefined = undefined
 
-    const result = sut.validate(subs)
+    const result = sut.validateSubs(subs)
 
     expect(result).toEqual({
       issues: [

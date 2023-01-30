@@ -1,21 +1,27 @@
 export interface Subs {
-    email: string,
-    name?: HumanName
-    gender?: string
-    dob: Date
-    consent: boolean
-    newsLetterId: string
+  email: string
+  name?: HumanName
+  gender?: string
+  dob: Date
+  consent: boolean
+  newsLetterId: string
 }
 
 export interface HumanName {
-    given: string[]
-    family?: string[]
-    title?: string[]
-    prefix?: string[]
-    suffix?: string[]
+  given: string[]
+  family?: string[]
+  title?: string[]
+  prefix?: string[]
+  suffix?: string[]
 }
 
 export interface Res {
-    id?: string
-    type: string
+  id?: string
+  type: string
+}
+
+export interface UserSubs extends Subs, Res {
+  type: "UserSubs"
+  url: string
+  etag: string
 }
