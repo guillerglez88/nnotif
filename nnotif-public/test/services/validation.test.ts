@@ -47,4 +47,30 @@ describe("Subscriptions validations", () => {
       ],
     })
   })
+
+  it("Email shoult be valid", () => {
+    const subs: Partial<Subs> = {
+      name: {
+        given: ["John"],
+      },
+      gender: "male",
+      email: "bad-email.com",
+      dob: new Date("2023-01-30T17:54:38.345Z"),
+      consent: true,
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=value",
+          desc: "Prop: `email` is not a valid email",
+        },
+      ],
+    })
+  })
 })

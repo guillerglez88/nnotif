@@ -3,6 +3,7 @@ import { type Outcome } from "validation"
 import { type Response } from "node-fetch"
 
 import { check, mapValid } from "../libs/outcome"
+import { isValidEmail } from "../libs/email"
 
 const validateSubs = (subs?: Partial<Subs>): Outcome => {
   const outcome: Outcome = check([
@@ -23,6 +24,16 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop: `email: string` is required",
+        },
+      ],
+    },
+    {
+      test: subs?.email !== undefined && !isValidEmail(subs.email),
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=value",
+          desc: "Prop: `email` is not a valid email",
         },
       ],
     },
