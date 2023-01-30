@@ -66,3 +66,21 @@ Content-Type: application/json
     }],
     "gender": "male"
 }
+
+###
+
+POST http://localhost:3005/subs
+Content-Type: application/json
+
+{
+    "name": {
+        "given": [
+            "John"
+        ]
+    },
+    "email": "nnotif-no-reply@mailinator.com",
+    "gender": "male",
+    "dob": "1988-04-18",
+    "consent": true,
+    "newsLetterId": "f03aad4e"
+}
