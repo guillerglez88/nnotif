@@ -80,3 +80,74 @@ $> cd ./nnotif-dynarest
 $> cp ./.env.tpl ./.env
 $> npm run dev
 ```
+
+### FS
+
+```
+.
+├── docker-compose.debug.yml
+├── docker-compose.yml
+├── Dockerfile                 // multi-stage Dockerfile
+├── .dockerignore
+├── .env.tpl                   // must: $> cp ./.env.tpl ./.env
+├── .eslintignore
+├── .eslintrc.json             // linter config
+├── jest.config.json           // test runner config
+├── package.json
+├── package-lock.json
+├── .prettierrc.json           // formatter config
+├── src
+│   ├── app.ts
+│   ├── bin
+│   │   └── www.ts
+│   ├── data                   // data access stufs
+│   │   ├── ddl.ts             // SQL-DDL operations
+│   │   ├── dml.ts             // SQL-DML operations
+│   │   ├── dql.ts             // SQL-DQL operations
+│   │   ├── storage.ts         // repository abstraction
+│   │   └── transaction.ts     // db transactions operations
+│   ├── libs                   // utility functions
+│   │   ├── config.ts          // env strongly typed
+│   │   ├── resource.ts        // resources normalization
+│   │   ├── response.ts        // ExpressJS response utilities
+│   │   └── routes.ts          // REST routes utilities
+│   ├── modules                // feature modules
+│   │   └── resource
+│   │       ├── index.ts
+│   │       └── trn.json.tpl
+│   ├── nerves                 // REST operations
+│   │   ├── create.ts          // POST /:type
+│   │   ├── index.ts
+│   │   ├── not-found.ts       // fallback at "/", not-implemented
+│   │   ├── read.ts            // GET /:type/:id
+│   │   ├── remove.ts          // DELETE /:type/:id, not-implemented
+│   │   ├── search.ts          // GET /List?of=:type, not-implemented
+│   │   ├── update.ts          // POST /:type/:id
+│   │   └── upsert.ts          // PUT /:type/:id
+│   ├── routes
+│   │   └── index.ts           // db-routes -> expressjs
+│   ├── seed                   // app bootstrap
+│   │   ├── bootstrap.json     // fundation data raw
+│   │   └── index.ts
+│   └── types
+│       ├── aliases.ts         // aliasses for ugly types
+│       ├── data.ts            // data access types
+│       ├── fundation.ts       // REST types
+│       └── json.d.ts          // .json modules type def
+├── test                       // tests, file structure matches src file structure
+│   ├── data                   // data access tests
+│   │   ├── ddl.test.ts        // SQL-DDL tests
+│   │   ├── dml.test.ts        // SQL-DML tests
+│   │   └── dql.test.ts        // SQL-DQL tests
+│   ├── fixture.ts             // static test data
+│   ├── libs                   // utility functions tests
+│   │   ├── resource.test.ts
+│   │   ├── response.test.ts
+│   │   └── routes.test.ts
+│   └── sanity.test.ts         // tests precondition checks
+├── tsconfig.build.json        // build tscofig
+├── tsconfig.json              // dev tsconfig
+└── .vscode                    // vscode configs
+    ├── launch.json
+    └── tasks.json
+```
