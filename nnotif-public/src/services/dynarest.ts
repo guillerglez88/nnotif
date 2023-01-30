@@ -7,6 +7,19 @@ import { validateResp } from "./validation"
 
 const baseUrl = config.dynarest.replace(/\/$/, "")
 
+const read = async <T extends Res>(res: Res): Promise<Outcome | T> => {
+  const url = `${baseUrl}/${res.type}/${res.id as string}`
+
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json"
+    }
+  })
+
+  return await validateResp<T>(resp)
+}
+
 const create = async <T extends Res>(res: T): Promise<Outcome | T> => {
   const url = `${baseUrl}/${res.type}`
 
@@ -37,4 +50,4 @@ const update = async <T extends Res>(res: T): Promise<Outcome | T> => {
   return await validateResp<T>(resp)
 }
 
-export { create, update }
+export { read, create, update }

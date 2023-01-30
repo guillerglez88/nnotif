@@ -1,14 +1,41 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { type UpdateSubsReq, type CreateSubsReq } from "aliases"
+import { type UpdateSubsReq, type CreateSubsReq, type ReadSubsReq } from "aliases"
 import express from "express"
 import { type UserSubs } from "data"
 
-import { create, update } from "../services/dynarest"
+import { create, read, update } from "../services/dynarest"
 import { validateSubs } from "../services/validation"
 import { fold, isValid } from "../libs/outcome"
 import { mapFromUserSubs } from "../libs/mappers"
 
 const subs = express.Router()
+
+subs.get("/subs/:id", async (req: ReadSubsReq, res) => {
+  const resp = await read<UserSubs>({
+    type: "UserSubs",
+    id: req.params.id,
+  })
+
+  const result = fold(
+    resp,
+    (resource) => ({
+      status: 200,
+      etag: resource.etag,
+      body: mapFromUserSubs(resource) as object,
+    }),
+    (outcome) => ({
+      status: 500,
+      etag: undefined,
+      body: outcome,
+    }),
+  )
+
+  if (result.etag !== undefined) {
+    res.header("ETag", `"${result.etag}"`)
+  }
+
+  res.status(result.status).json({ ...result.body })
+})
 
 subs.post("/subs", async (req: CreateSubsReq, res) => {
   const outcome = validateSubs(req.body)

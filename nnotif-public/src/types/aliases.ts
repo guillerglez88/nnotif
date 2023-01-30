@@ -1,6 +1,13 @@
 import { type Request } from "express"
 import { type HumanName, type Subs } from "data"
 
+export type ReadSubsReq = Request<
+  { id: string },
+  Record<string, unknown>,
+  Record<string, unknown>,
+  Record<string, unknown>
+>
+
 export type CreateSubsReq = Request<
   Record<string, unknown>,
   Record<string, unknown>,
