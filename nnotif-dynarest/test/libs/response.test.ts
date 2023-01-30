@@ -14,10 +14,10 @@ describe("ExpressJS response utilities", () => {
 
     expect(result).toEqual({
       status: 201,
-      headers: {
-        Location: "/Resource/1",
-        ETag: `"1034"`,
-      },
+      headers: new Map<string, string>([
+        ["Location", "/Resource/1"],
+        ["ETag", `"1034"`],
+      ]),
       body: res,
     })
   })
@@ -29,9 +29,9 @@ describe("ExpressJS response utilities", () => {
 
     expect(result).toEqual({
       status: 200,
-      headers: {
-        ETag: `"1034"`,
-      },
+      headers: new Map<string, string>([
+        ["ETag", `"1034"`], //
+      ]),
       body: res,
     })
   })
