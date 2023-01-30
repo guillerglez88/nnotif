@@ -11,5 +11,26 @@ services:
       - "dbdata:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
+  nnotif-dynarest:
+    image: nnotif-dynarest
+    build:
+      context: ./nnotif-dynarest
+      dockerfile: ./Dockerfile
+      target: prod
+    environment:
+      NODE_ENV: production
+      DB: postgres://postgres:postgres@host.docker.internal:5432/nnotif
+    ports:
+      - 3000:3000
+  nnotif-public:
+    image: nnotif-public
+    build:
+      context: ./nnotif-public
+      dockerfile: ./Dockerfile
+      target: prod
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3001
 volumes:
   dbdata: {}

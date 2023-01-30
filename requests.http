@@ -1,3 +1,11 @@
+GET http://localhost:3000/Resource/resource
+
+###
+
+GET http://localhost:3001/subs
+
+### 
+
 @base-url=http://localhost:3000
 
 GET {{base-url}}/List?of=Route
