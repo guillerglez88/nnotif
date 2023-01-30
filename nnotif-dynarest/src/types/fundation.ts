@@ -22,7 +22,7 @@ export interface Req {
 export interface Resp {
   status: number,
   body: Res,
-  headers?: Record<string, string>
+  headers?: Map<string, string>
 }
 
 export interface Route extends Res {
