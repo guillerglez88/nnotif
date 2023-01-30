@@ -14,7 +14,7 @@ subs.post("/subs", async (req: CreateSubsReq, res) => {
   const outcome = validateSubs(req.body)
 
   if (!isValid(outcome)) {
-    res.status(400).json({ ...outcome })
+    return res.status(400).json({ ...outcome })
   }
 
   const resp = await create<UserSubs>({
@@ -54,7 +54,7 @@ subs.put("/subs/:id", async (req: UpdateSubsReq, res) => {
   const outcome = validateSubs(req.body)
 
   if (!isValid(outcome)) {
-    res.status(400).json({ ...outcome })
+    return res.status(400).json({ ...outcome })
   }
 
   const resp = await update<UserSubs>({

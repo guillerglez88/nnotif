@@ -69,11 +69,12 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/subs/93afeb95-234f-4b90-a440-c6aec244eed4
+GET http://localhost:3001/subs/10c9aeb5-2d11-4038-aebb-79638445b0c1
 Accept: application/json
 Content-Type: application/json
 
 {
+    "status": "active",
     "name": {
         "given": [
             "John"
