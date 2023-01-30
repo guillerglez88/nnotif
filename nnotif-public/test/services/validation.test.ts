@@ -1,3 +1,7 @@
+/**
+ * @group unit
+ */
+
 import { type Subs } from "data"
 import * as sut from "../../src/services/validation"
 

@@ -1,4 +1,5 @@
 /**
+ * @group unit
  * @group sanity
  */
 
