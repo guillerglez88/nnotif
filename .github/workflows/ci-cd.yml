@@ -14,3 +14,4 @@ jobs:
     - name: Build nnotif-dynarest
       run: |
         docker build ./nnotif-dynarest --file ./nnotif-dynarest/Dockerfile --tag guillerglez88/nnotif-dynarest --tag guillerglez88/nnotif-dynarest:$(date +%s) --target prod
+        docker build ./nnotif-public --file ./nnotif-public/Dockerfile --tag guillerglez88/nnotif-public --tag guillerglez88/nnotif-public:$(date +%s) --target prod
