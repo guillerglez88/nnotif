@@ -10,6 +10,7 @@ describe("Mappings", () => {
   it("Can map from dynarest to public subs", () => {
     const usubs: UserSubs = {
       id: "1",
+      status: "/Coding/usersubs-status?code=active",
       email: "nnotif-no-reply@mailinator.com",
       gender: "male",
       name: { given: ["John"] },
@@ -25,6 +26,7 @@ describe("Mappings", () => {
 
     expect(result).toEqual({
       id: "1",
+      status: "active",
       email: "nnotif-no-reply@mailinator.com",
       name: {
         given: ["John"],
