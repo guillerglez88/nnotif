@@ -1,3 +1,7 @@
+/**
+ * @group unit
+ */
+
 import { type UserSubs } from "data"
 
 import * as sut from "../../src/libs/mappers"
