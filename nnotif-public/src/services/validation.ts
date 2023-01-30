@@ -4,6 +4,7 @@ import { type Response } from "node-fetch"
 
 import { check, mapValid } from "../libs/outcome"
 import { isValidEmail } from "../libs/email"
+import { isValidDob } from "../libs/dob"
 
 const validateSubs = (subs?: Partial<Subs>): Outcome => {
   const outcome: Outcome = check([
@@ -44,6 +45,16 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop: `dob: string` is required",
+        },
+      ],
+    },
+    {
+      test: subs?.dob !== undefined && !isValidDob(subs.dob),
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `dob` is not valid acording to format: YYYY-MM-dd",
         },
       ],
     },

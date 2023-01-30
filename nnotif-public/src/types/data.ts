@@ -2,7 +2,7 @@ export interface Subs {
   email: string
   name?: HumanName
   gender?: string
-  dob: Date
+  dob: string
   consent: boolean
   newsLetterId: string
 }

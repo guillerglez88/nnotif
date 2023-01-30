@@ -14,7 +14,7 @@ describe("Mappings", () => {
       gender: "male",
       name: { given: ["John"] },
       consent: true,
-      dob: new Date("2023-01-30T17:54:38.345Z"),
+      dob: "30-01-2023",
       newsLetterId: "f03aad4e",
       type: "UserSubs",
       etag: "1034",
@@ -29,7 +29,7 @@ describe("Mappings", () => {
         given: ["John"],
       },
       gender: "male",
-      dob: new Date("2023-01-30T17:54:38.345Z"),
+      dob: "30-01-2023",
       consent: true,
       newsLetterId: "f03aad4e",
     })

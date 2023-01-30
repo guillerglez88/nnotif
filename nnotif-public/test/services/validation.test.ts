@@ -6,7 +6,7 @@ import { type Subs } from "data"
 import * as sut from "../../src/services/validation"
 
 describe("Subscriptions validations", () => {
-  it("Should be not null", () => {
+  it("Shouldnt be not null", () => {
     const subs: Subs | undefined = undefined
 
     const result = sut.validateSubs(subs)
@@ -29,7 +29,7 @@ describe("Subscriptions validations", () => {
         given: ["John"],
       },
       gender: "male",
-      dob: new Date("2023-01-30T17:54:38.345Z"),
+      dob: "1988-04-18",
       consent: true,
       newsLetterId: "f03aad4e",
     }
@@ -55,7 +55,7 @@ describe("Subscriptions validations", () => {
       },
       gender: "male",
       email: "bad-email.com",
-      dob: new Date("2023-01-30T17:54:38.345Z"),
+      dob: "1988-04-18",
       consent: true,
       newsLetterId: "f03aad4e",
     }
@@ -94,6 +94,32 @@ describe("Subscriptions validations", () => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop: `dob: string` is required",
+        },
+      ],
+    })
+  })
+
+  it("Date of birth is correct", () => {
+    const subs: Partial<Subs> = {
+      name: {
+        given: ["John"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      gender: "male",
+      dob: "30-01-",
+      consent: true,
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `dob` is not valid acording to format: YYYY-MM-dd",
         },
       ],
     })
