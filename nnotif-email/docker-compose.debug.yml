@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  nnotif-email:
+    image: nnotif-email
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: build
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3002:3002
+      - 9229:9229
+    command: ["npm", "run", "dev"]
