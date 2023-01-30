@@ -9,5 +9,6 @@ services:
       target: prod
     environment:
       NODE_ENV: production
+      DYNAREST: http://localhost:3000
     ports:
       - 3001:3001

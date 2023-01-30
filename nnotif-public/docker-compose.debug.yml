@@ -9,6 +9,7 @@ services:
       target: build
     environment:
       NODE_ENV: development
+      DYNAREST: http://localhost:3000
     ports:
       - 3001:3001
       - 9229:9229
