@@ -108,6 +108,16 @@ const validateSubs = (subs?: NullableSubs): Outcome => {
         },
       ],
     },
+    {
+      test: subs?.status !== undefined && !["active", "cancelled"].includes(subs.status),
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Wrong `status`, allowed values are: active | cancelled",
+        },
+      ],
+    },
   ])
 
   return outcome
