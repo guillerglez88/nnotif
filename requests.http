@@ -6,6 +6,10 @@ GET http://localhost:3001/subs
 
 ### 
 
+GET http://localhost:3002/email
+
+### 
+
 @base-url=http://localhost:3000
 
 GET {{base-url}}/List?of=Route
