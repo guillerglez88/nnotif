@@ -23,7 +23,7 @@ const updateDML = <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "i
   const sql: Sql = [
     `UPDATE ${row.type} 
      SET resource = $1, 
-         modified = $2 
+         modified = $2, 
          etag = nextval('etag')
          WHERE id=$3 
      RETURNING *`,

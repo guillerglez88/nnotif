@@ -1,0 +1,103 @@
+{
+    "type": "Transaction",
+    "status": "/Coding/transaction-statuses?code=active",
+    "mode": "/Coding/transaction-modes?code=sync",
+    "items": [
+        {
+            "method": "PUT",
+            "url": "/Resource/usersubs",
+            "body": {
+                "type": "Resource",
+                "id": "usersubs",
+                "desc": "nnotif-public UserSubs resource",
+                "status": "/Coding/resource-statuses?code=pending",
+                "of": "UserSubs",
+                "routes": "/List?_of=Route&res-type=UserSubs"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/Route",
+            "body": {
+                "type": "Route",
+                "method": "POST",
+                "path": [
+                    {
+                        "name": "_type",
+                        "code": "/Coding/wellknown-params?code=type",
+                        "value": "UserSubs"
+                    }
+                ],
+                "name": "create-usersubs",
+                "code": "/Coding/nerves?code=create",
+                "resource": "/Resource/usersubs"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/Route",
+            "body": {
+                "type": "Route",
+                "method": "GET",
+                "path": [
+                    {
+                        "name": "_type",
+                        "code": "/Coding/wellknown-params?code=type",
+                        "value": "UserSubs"
+                    },
+                    {
+                        "name": "_id",
+                        "code": "/Coding/wellknown-params?code=id"
+                    }
+                ],
+                "name": "read-usersubs",
+                "code": "/Coding/nerves?code=read",
+                "resource": "/Resource/usersubs"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/Route",
+            "body": {
+                "type": "Route",
+                "method": "PUT",
+                "path": [
+                    {
+                        "name": "_type",
+                        "code": "/Coding/wellknown-params?code=type",
+                        "value": "UserSubs"
+                    },
+                    {
+                        "name": "_id",
+                        "code": "/Coding/wellknown-params?code=id"
+                    }
+                ],
+                "name": "upsert-usersubs",
+                "code": "/Coding/nerves?code=upsert",
+                "resource": "/Resource/usersubs"
+            }
+        },
+        {
+            "method": "POST",
+            "url": "/Route",
+            "body": {
+                "type": "Route",
+                "method": "DELETE",
+                "path": [
+                    {
+                        "name": "_type",
+                        "code": "/Coding/wellknown-params?code=type",
+                        "value": "UserSubs"
+                    },
+                    {
+                        "name": "_id",
+                        "code": "/Coding/wellknown-params?code=id"
+                    }
+                ],
+                "name": "delete-usersubs",
+                "code": "/Coding/nerves?code=delete",
+                "resource": "/Resource/usersubs"
+            }
+        }
+    ]
+}
