@@ -4,6 +4,7 @@
  * @group ddl
  */
 
+import { type Seq } from "fundation"
 import * as sut from "../../src/data/ddl"
 
 describe("SQL-DDL operations", () => {
@@ -19,6 +20,28 @@ describe("SQL-DDL operations", () => {
         modified    timestamptz      NOT NULL,
         etag        TEXT             NOT NULL DEFAULT nextval('etag'),
         CONSTRAINT  resource_pk PRIMARY KEY (id))`,
+    ])
+  })
+
+  it("Can build create-sequence DDL", () => {
+    const seq: Seq = {
+      type: "Seq",
+      id: "etag",
+      start: 1,
+      inc: 1,
+      cache: 12,
+    }
+
+    const ddl = sut.createSeqDDL(seq)
+
+    expect(ddl).toEqual([
+      `CREATE SEQUENCE IF NOT EXISTS public.etag
+        MINVALUE 1
+        NO MAXVALUE
+        START 1
+        INCREMENT BY 1
+        CACHE 12
+        NO CYCLE`,
     ])
   })
 })
