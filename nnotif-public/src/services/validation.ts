@@ -98,6 +98,16 @@ const validateSubs = (subs?: NullableSubs): Outcome => {
         },
       ],
     },
+    {
+      test: subs !== undefined && subs.status === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop `status` is required, allowed values are: active | cancelled",
+        },
+      ],
+    },
   ])
 
   return outcome

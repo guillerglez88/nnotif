@@ -25,7 +25,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Email is required", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -50,7 +51,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Email shoult be valid", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -76,7 +78,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Date of birth is required", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -101,7 +104,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Date of birth format is correct", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -127,7 +131,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Consent is required", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -152,7 +157,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("Consent should be true", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -178,7 +184,8 @@ describe("Subscriptions validations", () => {
   })
 
   it("NewsleterId is required", () => {
-    const subs: Partial<Subs> = {
+    const subs: NullableSubs = {
+      status: "active",
       name: {
         given: ["John"],
       },
@@ -204,6 +211,7 @@ describe("Subscriptions validations", () => {
 
   it("Given name is required", () => {
     const subs: NullableSubs = {
+      status: "active",
       name: {
         family: ["Doe"],
       },
@@ -223,6 +231,32 @@ describe("Subscriptions validations", () => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Prop `name.given` is required",
+        },
+      ],
+    })
+  })
+
+  it("Status is required", () => {
+    const subs: NullableSubs = {
+      name: {
+        given: ["John"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      dob: "1988-04-18",
+      gender: "male",
+      consent: true,
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop `status` is required, allowed values are: active | cancelled",
         },
       ],
     })
