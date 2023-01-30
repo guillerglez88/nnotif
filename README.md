@@ -6,18 +6,20 @@ Prove of concept for a user notifications platform in NodeJS
 
 ### Techs
 
-|                   |                |            |
-| ----------------- | -------------- | ---------: |
-| platform          | node           |     19.5.0 |
-| lang              | typescript     |      4.9.4 |
-| linter            | eslint         |     8.32.0 |
-| formatter         | prettier       |      2.8.3 |
-| api               | expressjs      |     4.18.2 |
-| db                | postgres       |       14.5 |
-| container         | docker(linux)  |     4.13.0 |
-| orchestrator:dev  | docker-compose |     2.11.2 |
-| orchestrator:prod | kubernetes     |       1.25 |
-| image             | node           | lts-alpine |
+|                   | tech           |    version | note                  |
+| ----------------- | -------------- | ---------: | --------------------- |
+| platform          | node           |     19.5.0 |                       |
+| lang              | typescript     |      4.9.4 |                       |
+| linter            | eslint         |     8.32.0 |                       |
+| formatter         | prettier       |      2.8.3 |                       |
+| api               | expressjs      |     4.18.2 |                       |
+| db                | postgres       |       14.5 | polyglot(SQL & NoSql) |
+| container         | docker(linux)  |     4.13.0 | docker-desktop        |
+| orchestrator:dev  | docker-compose |     2.11.2 | docker-desktop        |
+| orchestrator:prod | kubernetes     |       1.25 |                       |
+| image             | node           | lts-alpine | lightweight & LTS     |
+
+CI-CD is achieved via a combination of docker-build & GitHub Actions. That is, you can have the workflow locally by running `docker build` because of the multi-stage Dockerfile which executes a bunch of CI tasks: `[restore-pks, build, lint, test, publish]`. This approach also ensures portability to any CI-CD runner.
 
 ## Docker
 
