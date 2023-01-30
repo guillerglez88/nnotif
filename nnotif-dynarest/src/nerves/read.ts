@@ -4,6 +4,7 @@ import { type Route } from "fundation"
 
 import { getPathIdName, getPathTypeValue } from "../libs/routes"
 import { fetch } from "../data/storage"
+import { ok, withResp } from "../libs/response"
 
 const handler = async (
   req: Request,
@@ -15,13 +16,9 @@ const handler = async (
   const idKey = getPathIdName(route) as string
   const id = req.params[idKey] as string
 
-  const resource = await fetch({ type, id }, tx)
-  const etag = resource.etag as string
+  const result = await fetch({ type, id }, tx)
 
-  res
-    .status(200) //
-    .header("ETag", `"${etag}"`)
-    .json(resource)
+  withResp(result, ok, res)
 }
 
 export { handler }
