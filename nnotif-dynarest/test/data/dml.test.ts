@@ -20,7 +20,23 @@ describe("SQL-DML operations", () => {
       inRow.type,
       inRow.resource,
       inRow.created,
-      inRow.modified
+      inRow.modified,
+    ])
+  })
+
+  it("Can build update-row DML", () => {
+    const dml = sut.updateDML(inRow)
+
+    expect(dml).toEqual([
+      `UPDATE Resource 
+     SET resource = $1, 
+         modified = $2 
+         etag = nextval('etag')
+         WHERE id=$3 
+     RETURNING *`,
+      inRow.resource,
+      inRow.modified,
+      inRow.id,
     ])
   })
 })

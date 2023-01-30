@@ -1,4 +1,4 @@
-import { type InRow } from "aliases"
+import { type InRow, type UpRow } from "aliases"
 import { type Resource } from "fundation"
 
 const resource: Resource = {
@@ -18,4 +18,11 @@ const inRow: InRow<Resource> = {
   type: "Resource",
 }
 
-export { resource, inRow }
+const upRow: UpRow<Resource> = {
+  resource,
+  id: "1",
+  modified: new Date("2023-01-30T10:42:49.974Z"),
+  type: "Resource",
+}
+
+export { resource, inRow, upRow }
