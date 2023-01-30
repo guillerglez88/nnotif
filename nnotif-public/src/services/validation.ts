@@ -4,7 +4,7 @@ import { type Response } from "node-fetch"
 
 import { check, mapValid } from "../libs/outcome"
 
-const validateSubs = (subs?: Subs): Outcome => {
+const validateSubs = (subs?: Partial<Subs>): Outcome => {
   const outcome: Outcome = check([
     {
       test: subs === undefined,
@@ -13,6 +13,16 @@ const validateSubs = (subs?: Subs): Outcome => {
           level: "error",
           code: "/Coding/nnotif-public-subs-issue?code=required",
           desc: "Body is empty",
+        },
+      ],
+    },
+    {
+      test: subs !== undefined && subs.email === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `email: string` is required",
         },
       ],
     },
