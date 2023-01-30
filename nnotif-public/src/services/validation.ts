@@ -53,8 +53,18 @@ const validateSubs = (subs?: Partial<Subs>): Outcome => {
       issues: [
         {
           level: "error",
-          code: "/Coding/nnotif-public-subs-issue?code=required",
+          code: "/Coding/nnotif-public-subs-issue?code=value",
           desc: "Prop: `dob` is not valid acording to format: YYYY-MM-dd",
+        },
+      ],
+    },
+    {
+      test: subs !== undefined && subs.consent === undefined,
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `consent: boolean` is required"
         },
       ],
     },

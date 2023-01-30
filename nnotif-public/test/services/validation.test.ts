@@ -99,7 +99,7 @@ describe("Subscriptions validations", () => {
     })
   })
 
-  it("Date of birth is correct", () => {
+  it("Date of birth format is correct", () => {
     const subs: Partial<Subs> = {
       name: {
         given: ["John"],
@@ -118,8 +118,33 @@ describe("Subscriptions validations", () => {
       issues: [
         {
           level: "error",
-          code: "/Coding/nnotif-public-subs-issue?code=required",
+          code: "/Coding/nnotif-public-subs-issue?code=value",
           desc: "Prop: `dob` is not valid acording to format: YYYY-MM-dd",
+        },
+      ],
+    })
+  })
+
+  it("Consent is required", () => {
+    const subs: Partial<Subs> = {
+      name: {
+        given: ["John"],
+      },
+      email: "nnotif-no-reply@mailinator.com",
+      dob: "1988-04-18",
+      gender: "male",
+      newsLetterId: "f03aad4e",
+    }
+
+    const result = sut.validateSubs(subs)
+
+    expect(result).toEqual({
+      type: "Outcome",
+      issues: [
+        {
+          level: "error",
+          code: "/Coding/nnotif-public-subs-issue?code=required",
+          desc: "Prop: `consent: boolean` is required",
         },
       ],
     })
