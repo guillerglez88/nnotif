@@ -22,4 +22,9 @@ export type UpdateSubsReq = Request<
   Record<string, unknown>
 >
 
+export interface ErrorHandlerError {
+  status?: number
+  message?: string
+}
+
 export type NullableSubs = Partial<Omit<Subs, "name"> & { name: Partial<HumanName> }>
