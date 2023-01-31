@@ -13,7 +13,7 @@ const errorHandler: ErrorRequestHandler = (error: ErrorHandlerError, _, res, _ne
       {
         level: "error",
         code: "/Coding/nnotif-public-subs-issue?code=exception",
-        desc: `Error cought: ${error.message as string}`,
+        desc: `Error caught: ${error.message as string}`,
       },
     ],
   }

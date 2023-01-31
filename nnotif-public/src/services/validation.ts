@@ -3,7 +3,7 @@ import { type Outcome } from "validation"
 import { type Response } from "node-fetch"
 import { type Subs } from "data"
 
-import { mapSuccess, withChecks } from "../libs/outcome"
+import { mapSuccess, withChecks, withHandled } from "../libs/outcome"
 import { isValidEmail } from "../libs/email"
 import { isValidDob } from "../libs/dob"
 
@@ -127,24 +127,20 @@ const validateSubs = (subs?: NullableSubs): Subs | Outcome => {
 }
 
 const validateResp = async <T>(resp: Response): Promise<Outcome | T> => {
-  const check = withChecks((d: { isSuccess: boolean; content: string }) => [
-    {
-      test: !d.isSuccess,
-      issues: [
-        {
-          level: "error",
-          code: "/Coding/nnotif-public-subs-issue?code=exception",
-          desc: `Error comunicating to dynarest\n\n${d.content}`,
-        },
-      ],
-    },
-  ])
-
-  const isSuccess = resp.status >= 200 && resp.status < 300
   const content = await resp.text()
-  const valid = check({ isSuccess, content })
 
-  return mapSuccess(valid, ({ content }) => JSON.parse(content) as T)
+  const result = await withHandled(
+    async () => await Promise.resolve(JSON.parse(content) as T | Outcome),
+    [
+      {
+        level: "error",
+        code: "/Coding/nnotif-public-subs-issue?code=exception",
+        desc: `Error comunicating to dynarest: ${resp.status} -> ${content}`,
+      },
+    ],
+  )
+
+  return result
 }
 
 export { validateSubs, validateResp }
