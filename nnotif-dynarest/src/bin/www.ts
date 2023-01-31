@@ -1,3 +1,4 @@
+import "express-async-errors"
 import debug from "debug"
 import http from "http"
 import { type AddressInfo } from "net"

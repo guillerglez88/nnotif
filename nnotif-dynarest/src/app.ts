@@ -1,6 +1,7 @@
 import express from "express"
 import logger from "morgan"
 
+import { errorHandler } from "./middlewares/error-handler"
 import { loadRoutes } from "./routes"
 import * as seed from "./seed"
 import * as nnotifPublic from "./seed/nnotif-public"
@@ -18,6 +19,7 @@ void (async () => {
   const routes = await loadRoutes()
 
   app.use("/", routes)
+  app.use(errorHandler)
 })()
 
 export { app }
