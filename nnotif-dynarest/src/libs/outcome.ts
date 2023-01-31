@@ -5,7 +5,7 @@ import { identity } from "./funcs"
 const EMPTY: Outcome = { type: "Outcome", issues: [] }
 
 const isSuccess = <T>(source: Outcome | T): boolean => {
-  return (source as Outcome).type !== "Outcome"
+  return (source as Outcome)?.type !== "Outcome"
 }
 
 const getSuccess = <T>(source: T | Outcome): T => {
@@ -57,7 +57,7 @@ const fold = <T, W>(
 const bind = <T, W>(source: T | Outcome, inner: (t: T) => W | Outcome): W | Outcome => {
   const outcome = source as Outcome
 
-  if (outcome.type === "Outcome") return outcome
+  if (outcome?.type === "Outcome") return outcome
 
   return inner(source as T)
 }
