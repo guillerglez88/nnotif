@@ -7,7 +7,7 @@ import { validateResp } from "./validation"
 
 const baseUrl = config.dynarest.replace(/\/$/, "")
 
-const read = async <T extends Res>(res: Res): Promise<Outcome | T> => {
+const read = async <T extends Res>(res: Res): Promise<[number, T | Outcome]> => {
   const url = `${baseUrl}/${res.type}/${res.id as string}`
 
   const resp = await fetch(url, {
@@ -17,10 +17,12 @@ const read = async <T extends Res>(res: Res): Promise<Outcome | T> => {
     }
   })
 
-  return await validateResp<T>(resp)
+  const valid = await validateResp<T | Outcome>(resp)
+
+  return [resp.status, valid]
 }
 
-const create = async <T extends Res>(res: T): Promise<Outcome | T> => {
+const create = async <T extends Res>(res: T): Promise<[number, T | Outcome]> => {
   const url = `${baseUrl}/${res.type}`
 
   const resp = await fetch(url, {
@@ -32,10 +34,12 @@ const create = async <T extends Res>(res: T): Promise<Outcome | T> => {
     body: JSON.stringify(res),
   })
 
-  return await validateResp<T>(resp)
+  const valid = await validateResp<T | Outcome>(resp)
+
+  return [resp.status, valid]
 }
 
-const update = async <T extends Res>(res: T): Promise<Outcome | T> => {
+const update = async <T extends Res>(res: T): Promise<[number, T | Outcome]> => {
   const url = `${baseUrl}/${res.type}/${res.id as string}`
 
   const resp = await fetch(url, {
@@ -47,7 +51,9 @@ const update = async <T extends Res>(res: T): Promise<Outcome | T> => {
     body: JSON.stringify(res),
   })
 
-  return await validateResp<T>(resp)
+  const valid = await validateResp<T | Outcome>(resp)
+
+  return [resp.status, valid]
 }
 
 export { read, create, update }

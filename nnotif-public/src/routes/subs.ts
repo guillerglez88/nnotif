@@ -5,112 +5,89 @@ import { type UserSubs } from "data"
 
 import { create, read, update } from "../services/dynarest"
 import { validateSubs } from "../services/validation"
-import { fold, isValid } from "../libs/outcome"
+import { fold, getFailure, getSuccess, isSuccess, mapSuccess } from "../libs/outcome"
 import { mapFromUserSubs } from "../libs/mappers"
 
 const subs = express.Router()
 
 subs.get("/subs/:id", async (req: ReadSubsReq, res) => {
-  const resp = await read<UserSubs>({
+  const [status, resp] = await read<UserSubs>({
     type: "UserSubs",
     id: req.params.id,
   })
 
-  const result = fold(
+  const subs = mapSuccess(resp, mapFromUserSubs)
+  const etag = fold(
     resp,
-    (resource) => ({
-      status: 200,
-      etag: resource.etag,
-      body: mapFromUserSubs(resource) as object,
-    }),
-    (outcome) => ({
-      status: 500,
-      etag: undefined,
-      body: outcome,
-    }),
+    (r) => r.etag,
+    (_) => undefined,
   )
 
-  if (result.etag !== undefined) {
-    res.header("ETag", `"${result.etag}"`)
+  if (etag !== undefined) {
+    res.header("ETag", `"${etag}"`)
   }
 
-  res.status(result.status).json({ ...result.body })
+  res.status(status).json({ ...subs })
 })
 
 subs.post("/subs", async (req: CreateSubsReq, res) => {
-  const outcome = validateSubs(req.body)
+  const valid = validateSubs(req.body)
 
-  if (!isValid(outcome)) {
-    return res.status(400).json({ ...outcome })
+  if (!isSuccess(valid)) {
+    const err = getFailure(valid)
+    return res.status(400).json({ ...err })
   }
 
-  const resp = await create<UserSubs>({
-    ...req.body,
+  const subs = getSuccess(valid)
+  const [status, resp] = await create<UserSubs>({
+    ...subs,
     type: "UserSubs",
     status: `/Coding/usersubs-status?code=${req.body.status}`,
   })
 
-  const result = fold(
+  const dbsubs = mapSuccess(resp, mapFromUserSubs)
+  const headers = fold(
     resp,
-    (resource) => ({
-      status: 201,
-      loc: `/subs/${resource.id as string}` as string | undefined,
-      etag: resource.etag,
-      body: mapFromUserSubs(resource) as object,
-    }),
-    (outcome) => ({
-      status: 500,
-      loc: undefined,
-      etag: undefined,
-      body: outcome,
-    }),
+    (r) => ({ etag: `"${r.etag as string}"`, loc: `/subs/${r.id as string}` }),
+    (_) => undefined,
   )
 
-  if (result.loc !== undefined) {
-    res.header("Location", result.loc)
+  if (headers !== undefined) {
+    res.header("ETag", headers.etag)
+    res.header("Location", headers.loc)
   }
 
-  if (result.etag !== undefined) {
-    res.header("ETag", `"${result.etag}"`)
-  }
-
-  res.status(result.status).json({ ...result.body })
+  res.status(status).json({ ...dbsubs })
 })
 
 subs.put("/subs/:id", async (req: UpdateSubsReq, res) => {
-  const outcome = validateSubs(req.body)
+  const valid = validateSubs(req.body)
 
-  if (!isValid(outcome)) {
-    return res.status(400).json({ ...outcome })
+  if (!isSuccess(valid)) {
+    const err = getFailure(valid)
+    return res.status(400).json({ ...err })
   }
 
-  const resp = await update<UserSubs>({
-    ...req.body,
+  const subs = getSuccess(valid)
+  const [status, resp] = await update<UserSubs>({
+    ...subs,
     type: "UserSubs",
     id: req.params.id,
     status: `/Coding/usersubs-status?code=${req.body.status}`,
   })
 
-  const result = fold(
+  const dbsubs = mapSuccess(resp, mapFromUserSubs)
+  const etag = fold(
     resp,
-    (resource) => ({
-      status: 200,
-      etag: resource.etag,
-      body: mapFromUserSubs(resource) as object,
-    }),
-    (outcome) => ({
-      status: 500,
-      loc: undefined,
-      etag: undefined,
-      body: outcome,
-    }),
+    (r) => `"${r.etag as string}"`,
+    (_) => undefined,
   )
 
-  if (result.etag !== undefined) {
-    res.header("ETag", `"${result.etag}"`)
+  if (etag !== undefined) {
+    res.header("ETag", etag)
   }
 
-  res.status(result.status).json({ ...result.body })
+  res.status(status).json({ ...dbsubs })
 })
 
 export { subs }

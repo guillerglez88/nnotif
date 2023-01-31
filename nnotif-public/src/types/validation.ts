@@ -5,8 +5,8 @@ export interface Outcome {
 
 export interface Issue {
   level: IssueLevel
-  code: WellknownCodes
-  desc: string
+  code: string
+  desc?: string
 }
 
 export type IssueLevel = "info" | "warn" | "error"
