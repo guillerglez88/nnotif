@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  nnotif-email:
+    image: nnotif-postman
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: prod
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3002:3002
