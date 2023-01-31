@@ -1026,6 +1026,24 @@
           }
         ]
       }
+    },
+    {
+      "method": "PUT",
+      "url": "/Coding/outcome-issues",
+      "body": {
+        "type": "Coding",
+        "id": "outcome-issues",
+        "codes": [
+          {
+            "code": "/Coding/outcome-issues?code=not-found",
+            "desc": "Entity not found"
+          },
+          {
+            "code": "/Coding/outcome-issues?code=exception",
+            "desc": "Exception occurred"
+          }
+        ]
+      }
     }
   ]
 }

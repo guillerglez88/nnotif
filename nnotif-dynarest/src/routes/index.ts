@@ -1,11 +1,16 @@
 import express, { type Router } from "express"
 import { type Route } from "fundation"
+import debug from "debug"
 
 import { type Request, type Response } from "../types/aliases"
 import { calcMatchIndex, stringifyPath } from "../libs/routes"
 import { search } from "../data/storage"
 import { withTx } from "../data/transaction"
 import * as nerves from "../nerves"
+import { fold } from "../libs/outcome"
+import { identity } from "../libs/funcs"
+
+debug("nnotif-dynarest:routes-index")
 
 const handle = async (req: Request, res: Response, route: Route): Promise<void> => {
   const nerve = nerves.pick(route.code)
@@ -53,7 +58,14 @@ const register = (route: Route, router: Router): void => {
 const loadRoutes = async (): Promise<Router> => {
   const router = express.Router()
 
-  const routes = await withTx(async (tx) => await search<Route>("Route", [], tx))
+  const dbRoutes = await withTx(async (tx) => await search<Route>("Route", [], tx))
+
+  const routes = fold(dbRoutes, identity, (err) => {
+    const message = `Error loading db routes: ${JSON.stringify(err)}`
+    debug(message)
+    throw new Error(message)
+  })
+
   const sorted = routes.sort((a, b) => calcMatchIndex(b) - calcMatchIndex(a))
 
   for (const route of sorted) {
