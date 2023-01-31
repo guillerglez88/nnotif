@@ -19,3 +19,8 @@ export type InRow<T extends Res> = Omit<Row<T>, "etag">
 export type UpRow<T extends Res> = Pick<Row<T>, "resource" | "modified" | "id" | "type">
 
 export type SeqConfig = Required<Pick<Seq, "start" | "inc" | "cache">>
+
+export interface ErrorHandlerError {
+  status?: number
+  message?: string
+}
