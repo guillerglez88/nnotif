@@ -6,7 +6,7 @@ export interface Outcome {
 export interface Issue {
   level: IssueLevel
   code: string
-  desc: string
+  desc?: string
 }
 
 export type IssueLevel = "info" | "warn" | "error"
