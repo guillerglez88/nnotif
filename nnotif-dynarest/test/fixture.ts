@@ -1,6 +1,7 @@
 import { type InRow, type UpRow } from "aliases"
 import { type Row } from "data"
 import { type Route, type Resource } from "fundation"
+import { type Outcome } from "validation"
 
 const resource: Resource = {
   type: "Resource",
@@ -96,6 +97,17 @@ const readResResolvedRoute: Route = {
   resource: "/Resource/resource",
 }
 
+const outcome: Outcome = {
+  type: "Outcome",
+  issues: [
+    {
+      level: "error",
+      code: "/Coding/nnotif-public-subs-issue?code=exception",
+      desc: "blah blah",
+    },
+  ],
+}
+
 export {
   resource,
   row,
@@ -105,4 +117,5 @@ export {
   readResRoute,
   readResResolvedRoute,
   notFoundRoute,
+  outcome
 }
