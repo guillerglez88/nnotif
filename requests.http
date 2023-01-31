@@ -69,12 +69,12 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3001/subs/10c9aeb5-2d11-4038-aebb-79638445b0c1
+POST http://localhost:3001/subs
 Accept: application/json
 Content-Type: application/json
 
 {
-    "status": "active",
+    "status": "cancelled",
     "name": {
         "given": [
             "John"
@@ -87,3 +87,7 @@ Content-Type: application/json
     "consent": true,
     "newsLetterId": "f03aad4e"
 }
+
+###
+
+GET http://localhost:3001/subs/10c9aeb5-2d11-4038-aebb-79638445b0c1
