@@ -18,9 +18,10 @@ Prove of concept for a user notifications platform in NodeJS
 | test              | jest           |     29.4.1 |                       |
 | db                | postgres       |       14.5 | polyglot(SQL & NoSql) |
 | container         | docker(linux)  |     4.13.0 | docker-desktop        |
+| image             | node           | lts-alpine | lightweight & LTS     |
 | orchestrator:dev  | docker-compose |     2.11.2 | docker-desktop        |
 | orchestrator:prod | kubernetes     |       1.25 |                       |
-| image             | node           | lts-alpine | lightweight & LTS     |
+| kube pkg manager  | helm           |     3.11.0 |                       |
 
 CI-CD is achieved via a combination of docker-build & GitHub Actions. That is, you can have the workflow locally by running `docker build` because of the multi-stage Dockerfile which executes a bunch of CI tasks: `[restore-pks, build, lint, test, publish]`. This approach also ensures portability to any CI-CD runner.
 
