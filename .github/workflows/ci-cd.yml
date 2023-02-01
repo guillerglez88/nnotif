@@ -17,5 +17,7 @@ jobs:
         docker build ./nnotif-public --file ./nnotif-public/Dockerfile --tag guillerglez88/nnotif-public --tag guillerglez88/nnotif-public:$(date +%s) --target prod
         docker build ./nnotif-email --file ./nnotif-email/Dockerfile --tag guillerglez88/nnotif-email --tag guillerglez88/nnotif-email:$(date +%s) --target prod
 
-        ./kube/prod/lint.sh
-        ./kube/prod/build.sh
+        cd ./kube/prod
+        ./lint.sh
+        ./build.sh
+        cd ../..
