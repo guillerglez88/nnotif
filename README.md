@@ -25,6 +25,8 @@ Prove of concept for a user notifications platform in NodeJS
 
 CI-CD is achieved via a combination of docker-build & GitHub Actions. That is, you can have the workflow locally by running `docker build` because of the multi-stage Dockerfile which executes a bunch of CI tasks: `[restore-pks, build, lint, test, publish]`. This approach also ensures portability to any CI-CD runner.
 
+Security is achieved by adding ingress only for public service in the cluster, the rest of the services remain in the private zone of the cluster. Ideally OAuth should be supported for server-to-server authN & authZ.
+
 ## Helm
 
 1- config hosts
