@@ -25,6 +25,35 @@ Prove of concept for a user notifications platform in NodeJS
 
 CI-CD is achieved via a combination of docker-build & GitHub Actions. That is, you can have the workflow locally by running `docker build` because of the multi-stage Dockerfile which executes a bunch of CI tasks: `[restore-pks, build, lint, test, publish]`. This approach also ensures portability to any CI-CD runner.
 
+## Helm
+
+1- config hosts
+
+If installing locally, add kube to hosts file. Example in linux:
+
+`/etc/hosts`
+
+add this line:
+
+`127.0.0.1	nnotif.kubernetes.docker.internal`
+
+2- install ingress-nginx
+
+```
+$> helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+```
+
+IMPORTANT: wait 3 minutes for ingress to get ready
+
+3- Deploy
+
+```
+$> cd ./kube/prod
+$> ./deploy
+```
+
 ## Docker
 
 ### Specific service

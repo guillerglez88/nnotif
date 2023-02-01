@@ -2,8 +2,11 @@ dependencies:
 - name: nnotif-dynarest
   repository: file://./charts/nnotif-dynarest
   version: 0.1.0
+- name: nnotif-public
+  repository: file://./charts/nnotif-public
+  version: 0.1.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 12.1.13
-digest: sha256:132dd606997150abf8eb13b182e5e1ce22bc4986b4f6ae36642e606ad4bda994
-generated: "2023-02-01T20:37:19.132110175+01:00"
+digest: sha256:32a9a81f645718cb2df696c6a67f3556202e73355ff12660a8fcfa9c0a16d26a
+generated: "2023-02-02T00:41:46.675814529+01:00"
