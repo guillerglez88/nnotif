@@ -1,0 +1,6 @@
+dependencies:
+- name: nnotif-dynarest
+  repository: file://./charts/nnotif-dynarest
+  version: 0.1.0
+digest: sha256:09a76f8fda11e28f91c3fba6c957b5958159d98c5490e2f7f2294f0daa9b5c16
+generated: "2023-02-01T19:48:42.967997995+01:00"
