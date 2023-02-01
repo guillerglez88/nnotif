@@ -4,6 +4,8 @@
 
 Prove of concept for a user notifications platform in NodeJS
 
+![arch diagram](docs/arch.jpg)
+
 ### Techs
 
 |                   | tech           |    version | note                  |
