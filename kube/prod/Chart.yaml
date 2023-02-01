@@ -27,4 +27,7 @@ dependencies:
   - name: "nnotif-dynarest"
     version: "0.1.0"
     repository: "file://./charts/nnotif-dynarest"
+  - name: "postgresql"
+    version: "12.1.13"
+    repository: "https://charts.bitnami.com/bitnami"
 
