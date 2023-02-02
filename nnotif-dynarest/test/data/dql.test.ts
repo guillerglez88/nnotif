@@ -19,12 +19,13 @@ describe("SQL-DQL operations", () => {
   })
 
   it("Can build list-by-type DQL", () => {
-    const dql = sut.listDQL("Resource", 10)
+    const dql = sut.listDQL("Resource", 0, 10)
 
     expect(dql).toEqual([
       `SELECT * 
      FROM Resource 
-     LIMIT 10`,
+     LIMIT 10
+     OFFSET 0`,
     ])
   })
 })

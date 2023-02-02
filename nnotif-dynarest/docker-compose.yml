@@ -10,5 +10,6 @@ services:
     environment:
       NODE_ENV: production
       DB: postgres://postgres:postgres@localhost:5432/nnotif
+      DEFAULT_LIMIT: 128
     ports:
       - 3000:3000

@@ -69,16 +69,22 @@ const remove = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T | Outc
   })
 }
 
-const total = (_dql: Sql, _tx: PoolClient): number => {
-  throw new Error("not-implemented")
+const total = async (
+  type: string,
+  offset: number,
+  limit: number,
+  tx: PoolClient,
+): Promise<number | Outcome> => {
+  return await withHandled(async () => await dql.total(type, offset, limit, tx))
 }
 
 const search = async <T extends Res>(
   type: string,
-  _dql: Sql,
+  offset: number,
+  limit: number,
   tx: PoolClient,
 ): Promise<T[] | Outcome> => {
-  const rows = await withHandled(async () => await dql.list<T>(type, 128, tx))
+  const rows = await withHandled(async () => await dql.list<T>(type, offset, limit, tx))
 
   return mapSuccess(rows, (rows) => rows.map(normalize<T>))
 }

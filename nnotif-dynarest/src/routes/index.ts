@@ -58,7 +58,7 @@ const register = (route: Route, router: Router): void => {
 const loadRoutes = async (): Promise<Router> => {
   const router = express.Router()
 
-  const dbRoutes = await withTx(async (tx) => await search<Route>("Route", [], tx))
+  const dbRoutes = await withTx(async (tx) => await search<Route>("Route", 0, 1024, tx))
 
   const routes = fold(dbRoutes, identity, (err) => {
     const message = `Error loading db routes: ${JSON.stringify(err)}`

@@ -45,7 +45,7 @@ const createSeqDDL = (sequence: Seq): Sql => {
 
 const tableExists = async (type: string, tx: PoolClient): Promise<boolean> => {
   try {
-    await list(type, 1, tx)
+    await list(type, 0, 1, tx)
     return true
   } catch (_error) {
     return false

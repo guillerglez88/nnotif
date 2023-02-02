@@ -47,6 +47,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "nnotif-dynarest.fullname" . }}
                   key: db
+            - name: DEFAULT_LIMIT
+              value: "128"
           # livenessProbe:
           #   httpGet:
           #     path: /

@@ -4,22 +4,33 @@ import { type Outcome } from "validation"
 
 import { fold, isNotFound } from "./outcome"
 
-const ok = <T extends Res>(res: T): Resp => ({
-  status: 200,
-  headers: new Map<string, string>([
-    ["ETag", `"${res.etag as string}"`], //
-  ]),
-  body: res,
-})
+const ok = <T extends Res>(res: T): Resp => {
+  const resp: Resp = {
+    status: 200,
+    headers: new Map<string, string>([]),
+    body: res,
+  }
 
-const created = <T extends Res>(res: T): Resp => ({
-  status: 201,
-  headers: new Map<string, string>([
-    ["Location", res.url as string], //
-    ["ETag", `"${res.etag as string}"`],
-  ]),
-  body: res,
-})
+  if (res.etag !== undefined) {
+    resp.headers?.set("ETag", `"${res.etag}"`)
+  }
+
+  return resp
+}
+
+const created = <T extends Res>(res: T): Resp => {
+  const resp: Resp = {
+    status: 201,
+    headers: new Map<string, string>([["Location", res.url as string]]),
+    body: res,
+  }
+
+  if (res.etag !== undefined) {
+    resp.headers?.set("ETag", `"${res.etag}"`)
+  }
+
+  return resp
+}
 
 const notFound = (outcome: Outcome): Resp => ({
   status: 404,

@@ -83,3 +83,4 @@ affinity: {}
 
 env:
   db: <db-cnx-str>
+  defaultLimit: "128"

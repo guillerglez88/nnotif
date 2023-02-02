@@ -14,11 +14,23 @@ const findDQL = (ref: Ref): Sql => {
   return dql
 }
 
-const listDQL = (type: string, limit: number): Sql => {
+const listDQL = (type: string, offset: number, limit: number): Sql => {
   const dql: Sql = [
     `SELECT * 
      FROM ${type} 
-     LIMIT ${limit}`,
+     LIMIT ${limit}
+     OFFSET ${offset}`,
+  ]
+
+  return dql
+}
+
+const totalDQL = (type: string, offset: number, limit: number): Sql => {
+  const dql: Sql = [
+    `SELECT COUNT(*) AS total
+     FROM ${type} 
+     LIMIT ${limit}
+     OFFSET ${offset}`,
   ]
 
   return dql
@@ -33,13 +45,26 @@ const find = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<Row<T>> =>
 
 const list = async <T extends Res>(
   type: string,
+  offset: number,
   limit: number,
   tx: PoolClient,
 ): Promise<Array<Row<T>>> => {
-  const [dql, ...params]: Sql = listDQL(type, limit)
+  const [dql, ...params]: Sql = listDQL(type, offset, limit)
   const { rows } = await tx.query<Row<T>>(dql as string, params)
 
   return rows
 }
 
-export { findDQL, listDQL, find, list }
+const total = async (
+  type: string,
+  offset: number,
+  limit: number,
+  tx: PoolClient,
+): Promise<number> => {
+  const [dql, ...params]: Sql = totalDQL(type, offset, limit)
+  const { rows } = await tx.query<{total: number}>(dql as string, params)
+
+  return rows[0].total
+}
+
+export { findDQL, listDQL, totalDQL, find, list, total }

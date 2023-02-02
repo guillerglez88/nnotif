@@ -63,3 +63,17 @@ export interface Seq extends Res {
   inc?: number
   cache?: number
 }
+
+export interface List<T> extends Res {
+  type: "List",
+  items: T[],
+  total: number,
+  nav?: ListNav
+}
+
+export interface ListNav {
+  fist?: string
+  prev?: string
+  next?: string
+  last?: string
+}
