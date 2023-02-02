@@ -2,7 +2,7 @@ import { type Res, type Resp } from "fundation"
 import { type Response } from "aliases"
 import { type Outcome } from "validation"
 
-import { fold } from "./outcome"
+import { fold, isNotFound } from "./outcome"
 
 const ok = <T extends Res>(res: T): Resp => ({
   status: 200,
@@ -30,6 +30,10 @@ const deleted = (): Resp => ({
   status: 204,
 })
 
+const intServErr = (): Resp => ({
+  status: 500,
+})
+
 const withResp = <T extends Res>(
   result: T | Outcome,
   map: (res: T) => Resp,
@@ -51,8 +55,4 @@ const withResp = <T extends Res>(
   res.json(resp.body)
 }
 
-const isNotFound = (err: Outcome): boolean => {
-  return (err.issues ?? []).some(({ code }) => code === "/Coding/outcome-issues?code=not-found")
-}
-
-export { ok, created, notFound, deleted, withResp }
+export { ok, created, notFound, deleted, intServErr, withResp }

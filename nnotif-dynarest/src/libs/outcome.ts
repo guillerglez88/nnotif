@@ -95,6 +95,10 @@ const withChecks = <T>(getChecks: (t: T) => Check[]): ((t: T) => T | Outcome) =>
   }
 }
 
+const isNotFound = (err: Outcome): boolean => {
+  return (err?.issues ?? []).some(({ code }) => code === "/Coding/outcome-issues?code=not-found")
+}
+
 export {
   EMPTY,
   isSuccess,
@@ -107,4 +111,5 @@ export {
   bind,
   withHandled,
   withChecks,
+  isNotFound,
 }
