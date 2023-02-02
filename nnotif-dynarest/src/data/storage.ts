@@ -6,8 +6,8 @@ import { type Outcome } from "validation"
 import { type Row } from "data"
 
 import { normalize } from "../libs/resource"
-import { insert, update } from "./dml"
-import { find, list } from "./dql"
+import * as dml from "./dml"
+import * as dql from "./dql"
 import { bind, getSuccess, isSuccess, mapSuccess, withChecks, withHandled } from "../libs/outcome"
 
 const create = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | Outcome> => {
@@ -19,13 +19,13 @@ const create = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | O
     modified: new Date(),
   }
 
-  const row = await withHandled(async () => await insert(inRow, tx))
+  const row = await withHandled(async () => await dml.insert(inRow, tx))
 
   return mapSuccess(row, normalize<T>)
 }
 
 const fetch = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T | Outcome> => {
-  const row = await withHandled(async () => await find<T>(ref, tx))
+  const row = await withHandled(async () => await dql.find<T>(ref, tx))
 
   const check = withChecks((row: Row<T>) => [
     {
@@ -53,7 +53,7 @@ const edit = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | Out
     modified: new Date(),
   }
 
-  const row = await withHandled(async () => await update(upRow, tx))
+  const row = await withHandled(async () => await dml.update(upRow, tx))
 
   return mapSuccess(row, normalize<T>)
 }
@@ -64,7 +64,7 @@ const remove = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T | Outc
   if (!isSuccess(result)) return result
 
   return await withHandled(async () => {
-    await remove(ref, tx)
+    await dml.remove(ref, tx)
     return getSuccess(result)
   })
 }
@@ -78,7 +78,7 @@ const search = async <T extends Res>(
   _dql: Sql,
   tx: PoolClient,
 ): Promise<T[] | Outcome> => {
-  const rows = await withHandled(async () => await list<T>(type, 128, tx))
+  const rows = await withHandled(async () => await dql.list<T>(type, 128, tx))
 
   return mapSuccess(rows, (rows) => rows.map(normalize<T>))
 }
