@@ -1,7 +1,7 @@
 import { type PoolClient } from "pg"
 import { v4 as uuid } from "uuid"
 import { type Res, type Ref } from "fundation"
-import { type InRow, type UpRow, type Sql } from "aliases"
+import { type InRow, type UpRow } from "aliases"
 import { type Outcome } from "validation"
 import { type Row } from "data"
 
