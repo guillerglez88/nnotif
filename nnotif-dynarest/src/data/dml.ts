@@ -1,6 +1,6 @@
 import { type UpRow, type Sql, type InRow } from "aliases"
 import { type Row } from "data"
-import { type Res } from "fundation"
+import { type Ref, type Res } from "fundation"
 import { type PoolClient } from "pg"
 
 const insertDML = <T extends Res>(row: InRow<T>): Sql => {
@@ -13,13 +13,15 @@ const insertDML = <T extends Res>(row: InRow<T>): Sql => {
     row.type,
     row.resource,
     row.created,
-    row.modified
+    row.modified,
   ]
 
   return sql
 }
 
-const updateDML = <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "id" | "type">): Sql => {
+const updateDML = <T extends Res>(
+  row: Pick<Row<T>, "resource" | "modified" | "id" | "type">,
+): Sql => {
   const sql: Sql = [
     `UPDATE ${row.type} 
      SET resource = $1, 
@@ -30,6 +32,16 @@ const updateDML = <T extends Res>(row: Pick<Row<T>, "resource" | "modified" | "i
     row.resource,
     row.modified,
     row.id,
+  ]
+
+  return sql
+}
+
+const deleteDML = (ref: Ref): Sql => {
+  const sql: Sql = [
+    `DELETE FROM public.${ref.type} 
+    WHERE id=$1`,
+    ref.id,
   ]
 
   return sql
@@ -49,4 +61,9 @@ const update = async <T extends Res>(row: UpRow<T>, tx: PoolClient): Promise<Row
   return rows[0]
 }
 
-export { insertDML, updateDML, insert, update }
+const remove = async (ref: Ref, tx: PoolClient): Promise<void> => {
+  const [sql, ...params] = deleteDML(ref)
+  await tx.query(sql as string, params)
+}
+
+export { insertDML, updateDML, deleteDML, insert, update, remove }

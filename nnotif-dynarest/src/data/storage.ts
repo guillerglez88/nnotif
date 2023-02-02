@@ -8,7 +8,7 @@ import { type Row } from "data"
 import { normalize } from "../libs/resource"
 import { insert, update } from "./dml"
 import { find, list } from "./dql"
-import { bind, mapSuccess, withChecks, withHandled } from "../libs/outcome"
+import { bind, getSuccess, isSuccess, mapSuccess, withChecks, withHandled } from "../libs/outcome"
 
 const create = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | Outcome> => {
   const inRow: InRow<T> = {
@@ -58,11 +58,15 @@ const edit = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | Out
   return mapSuccess(row, normalize<T>)
 }
 
-const remove = async <T extends Res>(
-  _ref: Ref,
-  _tx: PoolClient,
-): Promise<T | Outcome> => {
-  throw new Error("not-implemented")
+const remove = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T | Outcome> => {
+  const result = await fetch<T>(ref, tx)
+
+  if (!isSuccess(result)) return result
+
+  return await withHandled(async () => {
+    await remove(ref, tx)
+    return getSuccess(result)
+  })
 }
 
 const total = (_dql: Sql, _tx: PoolClient): number => {

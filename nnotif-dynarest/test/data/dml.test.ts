@@ -6,6 +6,7 @@
 
 import { inRow } from "../fixture"
 import * as sut from "../../src/data/dml"
+import { type Ref } from "fundation"
 
 describe("SQL-DML operations", () => {
   it("Can build insert-row DML", () => {
@@ -37,6 +38,18 @@ describe("SQL-DML operations", () => {
       inRow.resource,
       inRow.modified,
       inRow.id,
+    ])
+  })
+
+  it("Can build delete-row DML", () => {
+    const ref: Ref = { type: "Resource", id: "1"}
+
+    const dml = sut.deleteDML(ref)
+
+    expect(dml).toEqual([
+      `DELETE FROM public.Resource 
+    WHERE id=$1`,
+      ref.id,
     ])
   })
 })
