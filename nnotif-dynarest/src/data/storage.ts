@@ -71,11 +71,9 @@ const remove = async <T extends Res>(ref: Ref, tx: PoolClient): Promise<T | Outc
 
 const total = async (
   type: string,
-  offset: number,
-  limit: number,
   tx: PoolClient,
 ): Promise<number | Outcome> => {
-  return await withHandled(async () => await dql.total(type, offset, limit, tx))
+  return await withHandled(async () => await dql.total(type, tx))
 }
 
 const search = async <T extends Res>(

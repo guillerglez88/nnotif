@@ -51,7 +51,7 @@ const handler = async (
   const limit = Number.parseInt(qlimit ?? config.defaultLimit)
 
   const itemsResult = await storage.search(type, offset, limit, tx)
-  const totalResult = await storage.total(type, offset, limit, tx)
+  const totalResult = await storage.total(type, tx)
 
   const result = bind(itemsResult, (r) => mapSuccess(totalResult, (t) => [r, t] as [Res[], number]))
 

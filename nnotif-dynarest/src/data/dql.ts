@@ -25,12 +25,10 @@ const listDQL = (type: string, offset: number, limit: number): Sql => {
   return dql
 }
 
-const totalDQL = (type: string, offset: number, limit: number): Sql => {
+const totalDQL = (type: string): Sql => {
   const dql: Sql = [
     `SELECT COUNT(*) AS total
-     FROM ${type} 
-     LIMIT ${limit}
-     OFFSET ${offset}`,
+     FROM ${type}`
   ]
 
   return dql
@@ -57,11 +55,9 @@ const list = async <T extends Res>(
 
 const total = async (
   type: string,
-  offset: number,
-  limit: number,
   tx: PoolClient,
 ): Promise<number> => {
-  const [dql, ...params]: Sql = totalDQL(type, offset, limit)
+  const [dql, ...params]: Sql = totalDQL(type)
   const { rows } = await tx.query<{total: number}>(dql as string, params)
 
   return rows[0].total
