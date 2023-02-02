@@ -116,7 +116,11 @@ $> helm upgrade --install ingress-nginx ingress-nginx \
 
 IMPORTANT: wait 3 minutes for ingress to get ready
 
-3- Deploy
+3- Gen docker images
+
+deploayments are configured to never pull images, that is, use local registry images always, this means you have to run docker build or `docker compose up --build` at least once in order to generate docker images to be used by kubernetes deployments.
+
+4- Deploy
 
 ```
 $> cd ./kube/prod
