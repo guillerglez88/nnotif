@@ -21,12 +21,25 @@ const created = <T extends Res>(res: T): Resp => ({
   body: res,
 })
 
-const withResp = <T extends Res>(result: T | Outcome, map: (res: T) => Resp, res: Response): void => {
+const notFound = (outcome: Outcome): Resp => ({
+  status: 404,
+  body: outcome,
+})
+
+const deleted = (): Resp => ({
+  status: 204,
+})
+
+const withResp = <T extends Res>(
+  result: T | Outcome,
+  map: (res: T) => Resp,
+  res: Response,
+): void => {
   const resp = fold(result, map, (err) => ({
     status: isNotFound(err) ? 404 : 500,
-    body: err
+    body: err,
   }))
-  
+
   const headers = resp.headers ?? new Map<string, string>()
 
   res.status(resp.status)
@@ -39,7 +52,7 @@ const withResp = <T extends Res>(result: T | Outcome, map: (res: T) => Resp, res
 }
 
 const isNotFound = (err: Outcome): boolean => {
-  return (err.issues ?? []).some(({code}) => code === "/Coding/outcome-issues?code=not-found")
+  return (err.issues ?? []).some(({ code }) => code === "/Coding/outcome-issues?code=not-found")
 }
 
-export { ok, created, withResp }
+export { ok, created, notFound, deleted, withResp }

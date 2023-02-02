@@ -58,7 +58,10 @@ const edit = async <T extends Res>(resource: T, tx: PoolClient): Promise<T | Out
   return mapSuccess(row, normalize<T>)
 }
 
-const remove = <T extends Res>(_ref: Ref, _tx: PoolClient): T | undefined => {
+const remove = async <T extends Res>(
+  _ref: Ref,
+  _tx: PoolClient,
+): Promise<T | Outcome> => {
   throw new Error("not-implemented")
 }
 
