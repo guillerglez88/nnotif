@@ -88,15 +88,11 @@ This one will be the responsible for delivering every kind of notifications base
 
 Postgres is used as the database management system because of it's feature of being polyglot, that is SQL and NO-SQL, as well as for it's great support for json and jsonb. Postgres supports ACID db operations as well as sql queries on top of json, great features for information systems and ETLs allowing data warehousing, data analisis and reporting from well stabblished tools.
 
-### Docker
-
-Present in the core of the architecture, docker allows the construction of microservices in order to extend the platform, either as middlewares or as notification transport services support, as well as allowing horizontal scaling in combination with kubernetes.
-
 ### Kubernetes
 
 This one allows platform resources management, balancing, scaling, monitoring and security. Since dynarest still doesn't support OAuth, kubernetes acts as a shield preventing request to reach the private network where unprotected services run.
 
-## Helm
+### Helm
 
 The package manager for kubernetes and the kubernetes build runner for getting the multi or single file for updating kubernetes cluster.
 
@@ -127,7 +123,9 @@ $> cd ./kube/prod
 $> ./deploy
 ```
 
-## Docker
+### Docker
+
+Present in the core of the architecture, docker allows the construction of microservices in order to extend the platform, either as middlewares or as notification transport services support, as well as allowing horizontal scaling in combination with kubernetes.
 
 ### Specific service
 
