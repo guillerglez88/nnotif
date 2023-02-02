@@ -165,7 +165,7 @@ In a star style architecture, this service represents the center of the star. It
 | create      |      ✅      | `POST   /:type        ` |
 | read        |      ✅      | `GET    /:type/:id    ` |
 | upsert      |      ✅      | `PUT    /:type/:id    ` |
-| remove      |      ❌      | `DELETE /:type/:id    ` |
+| remove      |      ✅      | `DELETE /:type/:id    ` |
 | search      |      ❌      | `GET    /List?of=:type` |
 | etag        |      ✅      | `GET    /:type/:id    ` |
 | resource    |      ✅      | `POST   /Resource     ` |

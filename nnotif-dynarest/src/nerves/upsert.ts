@@ -6,6 +6,8 @@ import { fetch } from "../data/storage"
 import { getPathIdName, getPathTypeValue } from "../libs/routes"
 import * as create from "./create"
 import * as update from "./update"
+import { getFailure, isNotFound, isSuccess } from "../libs/outcome"
+import { intServErr, withResp } from "../libs/response"
 
 const handler = async (
   req: Request,
@@ -18,11 +20,19 @@ const handler = async (
   const id = req.params[idKey] as string
   const entity = await fetch({ type, id }, tx)
 
-  if (entity === undefined) {
-    await create.handler(req, res, route, tx)
-  } else {
+  if (isSuccess(entity)) {
     await update.handler(req, res, route, tx)
+    return
   }
+
+  const outcome = getFailure(entity)
+
+  if (isNotFound(outcome)) {
+    await create.handler(req, res, route, tx)
+    return
+  }
+
+  withResp(entity, intServErr, res)
 }
 
 export { handler }

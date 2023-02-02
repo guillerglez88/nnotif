@@ -21,7 +21,7 @@ export interface Req {
 
 export interface Resp {
   status: number,
-  body: Res,
+  body?: Res,
   headers?: Map<string, string>
 }
 
