@@ -4,30 +4,101 @@
 
 Prove of concept for a user notifications platform in NodeJS
 
+## Architecture
+
 ![arch diagram](docs/imgs/arch.jpg)
+
+The key aspect of this architecture is the RESTfull style and the restrictions that compose REST architecture style itself:
+
+- Stateless
+- Cacheable
+- Uniform interface
+- Layered
 
 ### Techs
 
-|                   | tech           |    version | note                  |
-| ----------------- | -------------- | ---------: | --------------------- |
-| platform          | node           |     19.5.0 |                       |
-| lang              | typescript     |      4.9.4 |                       |
-| linter            | eslint         |     8.32.0 |                       |
-| formatter         | prettier       |      2.8.3 |                       |
-| api               | expressjs      |     4.18.2 |                       |
-| test              | jest           |     29.4.1 |                       |
-| db                | postgres       |       14.5 | polyglot(SQL & NoSql) |
-| container         | docker(linux)  |     4.13.0 | docker-desktop        |
-| image             | node           | lts-alpine | lightweight & LTS     |
-| orchestrator:dev  | docker-compose |     2.11.2 | docker-desktop        |
-| orchestrator:prod | kubernetes     |       1.25 |                       |
-| kube pkg manager  | helm           |     3.11.0 |                       |
+ | tech               |      version | desc                         |
+ | ------------------ | -----------: | ---------------------------- |
+ | **Node**           | `    19.5.0` | *platform*                   |
+ | **ExpressJS**      | `    4.18.2` | *web api*                    |
+ | **TypeScript**     | `     4.9.4` | *lang*                       |
+ | **ESLint**         | `    8.32.0` | *linter*                     |
+ | **Prettier**       | `     2.8.3` | *formatter*                  |
+ | **Jest**           | `    29.4.1` | *test*                       |
+ | **Postgres**       | `      14.5` | *polyglot-dbms(SQL & NoSql)* |
+ | **Docker(linux)**  | `    4.13.0` | *container*                  |
+ | **node-alpine**    | `lts-alpine` | *docker-image(LTS)*          |
+ | **docker-compose** | `    2.11.2` | *orchestrator:dev*           |
+ | **Kubernetes**     | `      1.25` | *orchestrator:prod*          |
+ | **Helm**           | `    3.11.0` | *kube pkg manager*           |
 
 CI-CD is achieved via a combination of docker-build & GitHub Actions. That is, you can have the workflow locally by running `docker build` because of the multi-stage Dockerfile which executes a bunch of CI tasks: `[restore-pks, build, lint, test, publish]`. This approach also ensures portability to any CI-CD runner.
 
-Security is achieved by adding ingress only for public service in the cluster, the rest of the services remain in the private zone of the cluster. Ideally OAuth should be supported for server-to-server authN & authZ.
+Security is aproached by adding ingress only for public service in the cluster, the rest of the services remain in the private network of the cluster. Ideally OAuth should be supported for server-to-server authN & authZ. Haven't had time to implement OAuth for this version of the platform. There are many other features missing, not only OAuth, but also: OTel and APM are very important for the platform in order to improve monitoring and observability.
+
+## Components
+
+### nnotif-dynarest
+
+RESTserver, with uniform interface, supports only RESTfull interactions, that is, everything is a Resource, and operations on resources are the standard ones:
+
+```
+GET /:type/:id
+GET /List?of=:type&...
+
+---
+
+POST /:type
+Content-Type: application/json
+
+{...}
+
+---
+
+PUT /:type/:id
+Content-Type: application/json
+
+{...}
+
+---
+
+DELETE /:type/:id
+
+---
+
+PATCH /:type/:id
+Content-Type: application/json
+
+{...}
+```
+
+> ❗A distinguishing route path pattern here is the list resource route. Usually `GET /:type` is the preferred pattern for this kind of interactions but this doesn't is very RESTfull at all, because the kind of resource will vary in schema depending on when you are fetching a single resource or listing the resources. Moving to an approach where exists a `List` resource is a better approach and keeps the **Uniform Interface** constraint. It also adds the ability to store list of resources as a static list, implement pagination and navigation on top of `List` resource type.
+
+Recommended optimization mechanisms like `ETag` has been implemented as well adding capability for caching taking advantage of network proxies caches.
+
+### nnotif-public
+
+This one is the public back-for-from, a middleware, or layer according to **Layered** restriction of REST. This service is very lightweight. Right now delegates all CRUD operations to dynarest, and adds validation and model translation. In the future, validation will be part of **dynarest**, in the form of validation as data, this hasn't been implemented yet though.
+
+### nnotif-postman
+
+This one will be the responsible for delivering every kind of notifications based on the subscription mechanism supported by **dynarest**. This service will use kafka as a support service for implementing fire-and-forget and queue of messages.
+
+### Postgres
+
+Postgres is used as the database management system because of it's feature of being polyglot, that is SQL and NO-SQL, as well as for it's great support for json and jsonb. Postgres supports ACID db operations as well as sql queries on top of json, great features for information systems and ETLs allowing data warehousing, data analisis and reporting from well stabblished tools.
+
+### Docker
+
+Present in the core of the architecture, docker allows the construction of microservices in order to extend the platform, either as middlewares or as notification transport services support, as well as allowing horizontal scaling in combination with kubernetes.
+
+### Kubernetes
+
+This one allows platform resources management, balancing, scaling, monitoring and security. Since dynarest still doesn't support OAuth, kubernetes acts as a shield preventing request to reach the private network where unprotected services run.
 
 ## Helm
+
+The package manager for kubernetes and the kubernetes build runner for getting the multi or single file for updating kubernetes cluster.
 
 1- config hosts
 
